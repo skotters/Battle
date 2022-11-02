@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Battle.Items;
+using System.Reflection;
 
 namespace Battle
 {
@@ -23,6 +24,8 @@ namespace Battle
         {
             Console.Clear();
 
+            //string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            //string enemy = File.ReadAllText(filepath + monster.Type + ".txt");
             string enemy = File.ReadAllText(monster.Type + ".txt");
 
             Console.SetWindowSize(70, 30);
