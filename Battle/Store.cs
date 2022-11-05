@@ -10,62 +10,121 @@ namespace Battle
 {
     public static class Store
     {
+        const int HEALTHPOTIONCOST = 20;
+        const int MAGICPOTIONCOST = 20;
+        const int ANTIDOTECOST = 10;
+        const int SWORDCOST = 30;
+        const int ARMORCOST = 40;
+
         public static void GoShopping(Player player)
         {
             bool openList = true;
 
-            Console.Clear();
-            Console.WriteLine("Welcome to the store!");
-            Console.WriteLine("What would you like to purchase?\n");
-
-            Console.WriteLine("\tGold: " + player.gold);
-
-            Console.WriteLine("\nName\t\t\tDesc\t\t\tCost");
-            Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine
-                (
-                    "1) Health Potion\theals 25hp\t\t20g" +
-                    "\n2) Magic Potion\t\trestores 25mp\t\t20g" +
-                    "\n3) Antidote\t\tcures poison\t\t10g" +
-                    "\n4) Sword\t\t+2 dmg melee\t\t30g" +
-                    "\n5) Armor\t\t-2 dmg taken\t\t40g" +
-                    "\n\n6) (Leave)"
-                );
+            ScreenManager.StoreFront(player.gold);
+            Console.Write("Option: ");
 
             while (openList)
             {
                 switch(Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        player.Inventory.Add(new HealthPotion());
-                        Console.WriteLine("Added health potion");
+                        if (player.gold - HEALTHPOTIONCOST >= 0)
+                        {
+                            player.Inventory.Add(new HealthPotion());
+                            player.gold -= HEALTHPOTIONCOST;
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Added health potion\n");
+                            Console.Write("Option: ");
+                        }
+                        else
+                        {
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Not enough gold.\n");
+                            Console.Write("Option: ");
+                        }
                         break;
                     case 2:
-                        player.Inventory.Add(new MagicPotion());
-                        Console.WriteLine("Added magic potion");
+                        if (player.gold - MAGICPOTIONCOST >= 0)
+                        {
+                            player.Inventory.Add(new MagicPotion());
+                            player.gold -= MAGICPOTIONCOST;
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Added magic potion\n");
+                            Console.Write("Option: ");
+                        }
+                        else
+                        {
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Not enough gold.\n");
+                            Console.Write("Option: ");
+                        }
                         break;
                     case 3:
-                        player.Inventory.Add(new Antidote());
-                        Console.WriteLine("Added antidote");
+                        if (player.gold - ANTIDOTECOST >= 0)
+                        {
+                            player.Inventory.Add(new Antidote());
+                            player.gold -= ANTIDOTECOST;
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Added antidote\n");
+                            Console.Write("Option: ");
+                        }
+                        else
+                        {
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Not enough gold.\n");
+                            Console.Write("Option: ");
+                        }
                         break;
                     case 4:
                         if (player.hasSword)
-                            Console.WriteLine("Player already has sword.");    
+                        {
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Player already has sword.\n");
+                            Console.Write("Option: ");
+                        }
                         else
                         {
-                            player.hasSword = true;
-                            player.MinAttackDmg++;      //min goes up 1
-                            player.MaxAttackDmg += 2;   //max goes up 2
-                            Console.WriteLine("equipped sword");
+                            if (player.gold - SWORDCOST >= 0)
+                            {
+                                player.hasSword = true;
+                                player.MinAttackDmg++;      //min goes up 1
+                                player.MaxAttackDmg += 2;   //max goes up 2
+                                player.gold -= SWORDCOST;
+                                ScreenManager.StoreFront(player.gold);
+                                Console.WriteLine("equipped sword\n");
+                                Console.Write("Option: ");
+                            }
+                            else
+                            {
+                                ScreenManager.StoreFront(player.gold);
+                                Console.WriteLine("Not enough gold.\n");
+                                Console.Write("Option: ");
+                            }
                         }
                         break;
                     case 5:
                         if (player.hasArmor)
-                            Console.WriteLine("Player already has armor.");
+                        {
+                            ScreenManager.StoreFront(player.gold);
+                            Console.WriteLine("Player already has armor.\n");
+                            Console.Write("Option: ");
+                        }
                         else
                         {
-                            player.hasArmor = true;
-                            Console.WriteLine("equipped armor.");
+                            if (player.gold - ARMORCOST >= 0)
+                            {
+                                player.hasArmor = true;
+                                player.gold -= ARMORCOST;
+                                ScreenManager.StoreFront(player.gold);
+                                Console.WriteLine("equipped armor.\n");
+                                Console.Write("Option: ");
+                            }
+                            else
+                            {
+                                ScreenManager.StoreFront(player.gold);
+                                Console.WriteLine("Not enough gold.\n");
+                                Console.Write("Option: ");
+                            }
                         }
                         break;
                     case 6:
@@ -79,3 +138,4 @@ namespace Battle
         }
     }
 }
+

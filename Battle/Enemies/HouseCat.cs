@@ -15,11 +15,12 @@ namespace Battle.Enemies
         public HealthBar monsterHealthBar { get; set; }
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
+
         public HouseCat(string randomName)
         {
             Type = "Grumpy";
             Name = randomName;
-            if (randomName[0] == 'v') //monsters with V name start with more health.
+            if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;
             else
                 StartingHP = 100;
@@ -39,12 +40,23 @@ namespace Battle.Enemies
                 actionText = "There's a reason these things aren't man's best friend.\n\t\t" +
                              "It got angry and swiped twice with a hiss!\n\t\t";
                 player.TakeDmg(dmgAmount);
-                actionText += $"You took {dmgAmount}({dmgAmount / 2}x2) damage!";
+
+                if (player.hasArmor && dmgAmount >= 2)
+                    actionText += $"{this.Name} hit you for {dmgAmount - 2} damage.";
+                else if (player.hasArmor)
+                    actionText += $"{this.Name} hit you for 0 damage.";
+                else
+                    actionText += $"{this.Name} hit you for {dmgAmount} damage.";
             }
             else
             {
                 player.TakeDmg(dmgAmount);
-                actionText += "You took " + dmgAmount + " damage!";
+                if (player.hasArmor && dmgAmount >= 2)
+                    actionText += $"{this.Name} hit you for {dmgAmount - 2} damage.";
+                else if (player.hasArmor)
+                    actionText += $"{this.Name} hit you for 0 damage.";
+                else
+                    actionText += $"{this.Name} hit you for {dmgAmount} damage.";
             }
 
             ScreenManager.BattleScreenUpdate(this, player, actionText, 2);

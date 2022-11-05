@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Battle.Enemies;
 
@@ -19,27 +20,23 @@ namespace Battle
             while(fighting)
             {
                 //round1
-                //EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
-                EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
-
+                EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
+                //EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
+                
                 //round2
                 if (!AskForNextFight(player)) { break; }
-                player.CurrentHP = player.StartingHP;
                 EnterBattle(player, new Ghost(MonsterNames.GetMonsterName()));
 
                 //round3
-                AskForNextFight(player);
-                player.CurrentHP = player.StartingHP;
+                if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
 
                 //round4
-                AskForNextFight(player);
-                player.CurrentHP = player.StartingHP;
+                if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Spider(MonsterNames.GetMonsterName()));
 
                 //round5
-                AskForNextFight(player);
-                player.CurrentHP = player.StartingHP;
+                if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
 
                 ScreenManager.VictoryScreen(player);
@@ -52,16 +49,14 @@ namespace Battle
 
         public void EnterBattle(Player player, IMonster monster)
         {
-            ////if monster name starts with V, gets 20 extra health.
-            //if (monster.Name[0].ToString().ToLower().Equals("v"))
-            //{
-            //    monster.StartingHP = 120;
-            //    monster.CurrentHP = 120;
-            //}
+            player.PlayerCondition = Condition.Normal;
+            player.CurrentHP = player.StartingHP;
 
-            int whoseturn = 1;
-            int playerOption;
+            int whoseturn = 1; //player goes first
+            int playerConfusionCounter = 0; //used if player is confused.
+            int playerOption; //keyboard entry
             bool play = true;
+            bool menuExitPerformed = false;
             Random rng = new Random();
             string battleStatusText = "You encountered a " + monster.Type;
 
@@ -71,66 +66,100 @@ namespace Battle
             {
                 if (whoseturn == 1) //player turn
                 {
-                    var keyPress = Console.ReadKey();
-                    playerOption = int.Parse(keyPress.KeyChar.ToString());
-                    
-                    switch (playerOption)
-                    {
-                        case 1: //standard attack
-                            {
-                                player.Attack(monster, rng.Next(player.MinAttackDmg, player.MaxAttackDmg));
-                                
-                                if (monster.CurrentHP <= 0) 
-                                {
-                                    MonsterDefeated(monster, player, whoseturn);
-                                    play = false; 
-                                }
-                                break;
-                            }
-                        case 2: //strong attack
-                            {
-                                bool successfulHit = rng.Next(1, 101) >= 50; //50% chance to hit. 
-                                int tempMinAttackDmg = player.MinAttackDmg + 5;
-                                int tempMaxAttackDmg = player.MaxAttackDmg + 10;
-                                //bool successfulHit = false; //testing only
-                                if (successfulHit)
-                                    player.Attack(monster, rng.Next(tempMinAttackDmg, tempMaxAttackDmg));
-                                else
-                                {
-                                    battleStatusText = "You missed!";
-                                    ScreenManager.BattleScreenUpdate(monster, player, battleStatusText, 2);
-                                    Console.ReadKey();
-                                }
+                    bool badUserEntry = false;
+                    Poisoncheck(monster, player);
 
-                                if (monster.CurrentHP <= 0)
-                                {
-                                    MonsterDefeated(monster, player, whoseturn);
-                                    play = false;
-                                }
-                                break;
-                            }
-                        case 3: //magic attack
+                    do
+                    {
+                        badUserEntry = false; //reset on each new attempt.
+                        try
+                        {
+                            
+                            var keyPress = Console.ReadKey();
+                            playerOption = int.Parse(keyPress.KeyChar.ToString());
+
+                            switch (playerOption)
                             {
-                                Console.WriteLine("magic attack pending...");
-                                Console.ReadLine();
-                                break;
+                                case 1: //standard attack
+                                    {
+                                        player.Attack(monster, rng.Next(player.MinAttackDmg, player.MaxAttackDmg));
+
+                                        if (monster.CurrentHP <= 0)
+                                        {
+                                            MonsterDefeated(monster, player, whoseturn);
+                                            play = false;
+                                        }
+                                        menuExitPerformed = false;
+                                        break;
+                                    }
+                                case 2: //strong attack
+                                    {
+                                        bool successfulHit = rng.Next(1, 101) >= 50; //50% chance to hit. 
+                                        int tempMinAttackDmg = player.MinAttackDmg + 5;
+                                        int tempMaxAttackDmg = player.MaxAttackDmg + 10;
+                                        //bool successfulHit = false; //testing only
+                                        if (successfulHit)
+                                            player.Attack(monster, rng.Next(tempMinAttackDmg, tempMaxAttackDmg));
+                                        else
+                                        {
+                                            battleStatusText = "You missed!";
+                                            ScreenManager.BattleScreenUpdate(monster, player, battleStatusText, 2);
+                                            Console.ReadKey();
+                                        }
+
+                                        if (monster.CurrentHP <= 0)
+                                        {
+                                            MonsterDefeated(monster, player, whoseturn);
+                                            play = false;
+                                        }
+                                        menuExitPerformed = false;
+                                        break;
+                                    }
+                                case 3: //magic attack
+                                    {
+                                        Console.WriteLine("magic attack pending...");
+                                        Console.ReadLine();
+
+                                        // if magic WAS performed, then menuExitPerformed is false.
+                                        menuExitPerformed = true;
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        InventoryManager.InventoryMenu(player);
+                                        //Console.ReadLine(); //temp hold
+                                        ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+                                        menuExitPerformed = true;
+                                        break;
+                                    }
+                                case 5: // 50% chance to get away and go to bakery
+                                    {
+                                        Console.WriteLine("run away!");
+                                        break;
+                                    }
+                                default: //bad number
+                                    Console.WriteLine("\tInvalid entry.\n\n (ok)");
+                                    Console.ReadKey();
+                                    ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+                                    badUserEntry = true;
+                                    break;
                             }
-                        case 4:
-                            {
-                                InventoryManager.InventoryMenu(player);
-                                Console.ReadLine(); //temp hold
-                                break;
-                            }
-                        case 5: // 50% chance to get away and go to bakery
-                            {
-                                Console.WriteLine("run away!");
-                                break;
-                            }
-                        default:
-                            break;
+                        }
+                        catch //non-number catch
+                        {
+                            Console.WriteLine("\tInvalid entry.\n\n (ok)");
+                            Console.ReadKey();
+                            ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+                            badUserEntry = true;
+                        }
                     }
-                    
-                     whoseturn = 2;
+                    while (badUserEntry);
+
+                    //if menu was exited from inventory or magic, keep player turn current and reiterate loop.
+                    if (menuExitPerformed)
+                        whoseturn = 1;
+                    else
+                        whoseturn = 2;
                 }
                 else //enemy turn
                 {
@@ -185,6 +214,19 @@ namespace Battle
                     }
             }
         }
+
+        public void Poisoncheck(IMonster monster, Player player)
+        {
+            int poisonDmg = 3;
+            string battleStatusText = $"You took {poisonDmg} damage from the poison.";
+
+            if (player.PlayerCondition == Condition.Poisoned)
+            {
+                player.CurrentHP -= poisonDmg;
+                ScreenManager.BattleScreenUpdate(monster, player, battleStatusText, 1);
+            }
+        }
+
 
         public bool IsSpecialVMonster(string name)
         {

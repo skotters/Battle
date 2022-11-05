@@ -15,11 +15,11 @@ namespace Battle
         public static int subtotalOptionCounter { get; set; }
         public static bool InventoryMenu(Player player)
         {
-            bool handInBag = true;
-            int playerOption;
+            //bool handInBag = true;
+            //int playerOption;
 
-            while (handInBag) //you're digging around for something...
-            {
+            //while (handInBag) //you're digging around for something...
+            //{
                 //ScreenManager.ShowInventoryScreen(player);
                 OpenWindow(player.Inventory, player); //             what is this line..........
 
@@ -30,7 +30,7 @@ namespace Battle
                 //{
                     
                 //}
-            }
+            //}
             return true;
         }
 
@@ -89,6 +89,12 @@ namespace Battle
 
                 Console.Write("\nEnter number: ");
                 int option = Convert.ToInt32(Console.ReadLine()) - 1;
+
+                //rough way to use option 9...
+                if (option + 1 == 9)
+                { 
+                    break;
+                }
 
                 Console.WriteLine("You chose list option # " + option);
 

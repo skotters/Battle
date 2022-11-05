@@ -44,11 +44,17 @@ namespace Battle.Enemies
             }
         
             player.TakeDmg(dmgAmount);
-            actionText += "You took " + dmgAmount + " damage!";
-            
+
+            if(player.hasArmor && dmgAmount >= 2)
+                actionText += $"{this.Name} hit you for {dmgAmount - 2} damage.";
+            else if(player.hasArmor)
+                actionText += $"{this.Name} hit you for 0 damage.";
+            else
+                actionText += $"{this.Name} hit you for {dmgAmount} damage.";
+
             ScreenManager.BattleScreenUpdate(this, player, actionText, 2);
             Console.ReadKey();
-            ScreenManager.BattleScreenUpdate(this, player, actionText, 1);
+            ScreenManager.BattleScreenUpdate(this, player, string.Empty, 1);
         }
 
         public void Special(int bloodAmount)

@@ -15,7 +15,7 @@
         {
             Type = "Spooky";
             Name = randomName;
-            if (randomName[0] == 'v') //monsters with V name start with more health.
+            if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;
             else
                 StartingHP = 100;
@@ -36,7 +36,12 @@
             }
 
             player.TakeDmg(dmgAmount);
-            actionText += "You took " + dmgAmount + " damage!";
+            if (player.hasArmor && dmgAmount >= 2)
+                actionText += $"{this.Name} hit you for {dmgAmount - 2} damage.";
+            else if (player.hasArmor)
+                actionText += $"{this.Name} hit you for 0 damage.";
+            else
+                actionText += $"{this.Name} hit you for {dmgAmount} damage.";
 
             ScreenManager.BattleScreenUpdate(this, player, actionText, 2);
             Console.ReadKey();

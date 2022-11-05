@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battle.Items
 {
-    internal class Armor
+    internal class Armor //damage mitigated by 2.
     {
         public string Name { get; set; }
 

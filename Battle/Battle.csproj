@@ -12,28 +12,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Area 51 escapee.txt">
+    <None Update="Text\Area 51 escapee.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="bakery.txt">
+    <None Update="Text\bakery.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Grumpy.txt">
+    <None Update="Text\Grumpy.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Hobbit eater.txt">
+    <None Update="Text\Hobbit eater.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="noperope.txt">
+    <None Update="Text\noperope.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="noperope2.txt">
+    <None Update="Text\noperope2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Spooky.txt">
+    <None Update="Text\Spooky.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Vampire.txt">
+    <None Update="Text\Vampire.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

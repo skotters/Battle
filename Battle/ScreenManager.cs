@@ -26,12 +26,13 @@ namespace Battle
 
             //string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             //string enemy = File.ReadAllText(filepath + monster.Type + ".txt");
-            string enemy = File.ReadAllText(monster.Type + ".txt");
+            string enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
 
             Console.SetWindowSize(70, 30);
 
             Console.WriteLine($"\tName: {monster.Name}");
             Console.WriteLine($"\tType: {monster.Type}");
+
             Console.WriteLine($"\tHP:   {monster.CurrentHP}");
             Console.WriteLine($"\t      {monster.monsterHealthBar.BarConsoleUpdate(monster.StartingHP, monster.CurrentHP)}");
             Console.WriteLine();
@@ -39,7 +40,6 @@ namespace Battle
 
             Console.WriteLine($"\n\t{statusText}\n\n");
             
-
             Console.WriteLine($"\t{player.Name}");
             Console.WriteLine($"\tHP:   {player.CurrentHP}\t{player.PlayerCondition}");
             Console.WriteLine($"\t      {player.playerHealthBar.BarConsoleUpdate(player.StartingHP, player.CurrentHP)}");
@@ -71,7 +71,8 @@ namespace Battle
             //Console.WriteLine("about to show subtotal... press key");
             //Console.ReadLine();
             Console.WriteLine(InventoryManager.GetSubtotaledInventory(player.Inventory));
-            Console.WriteLine($"Current HP: {player.CurrentHP}/{player.StartingHP}");
+            Console.WriteLine("\n9) Go back");
+            Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");
             Console.WriteLine($"Status: {player.PlayerCondition}");
         }
         public static void AfterFightScreen(Player player)
@@ -92,6 +93,27 @@ namespace Battle
             Console.WriteLine($"{player.Name}, you have won all the fights!\n\n");
             Console.WriteLine("You are now headed to the bakery.\n\n");
             Console.WriteLine("(press any key to continue)");
+        }
+
+        public static void StoreFront(int goldAmount)
+        {
+            Console.Clear();
+            Console.WriteLine("Welcome to the store!");
+            Console.WriteLine("What would you like to purchase?\n");
+
+            Console.WriteLine("\tGold: " + goldAmount);
+
+            Console.WriteLine("\nName\t\t\tDesc\t\t\tCost");
+            Console.WriteLine("-------------------------------------------------------");
+            Console.WriteLine
+                (
+                    "1) Health Potion\theals 25hp\t\t20g" +
+                    "\n2) Magic Potion\t\trestores 25mp\t\t20g" +
+                    "\n3) Antidote\t\tcures poison\t\t10g" +
+                    "\n4) Sword\t\t+2 dmg melee\t\t30g" +
+                    "\n5) Armor\t\t-2 dmg taken\t\t40g" +
+                    "\n\n6) (Leave)\n"
+                );
         }
 
     }

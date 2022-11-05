@@ -28,6 +28,9 @@ namespace Battle
         public bool hasArmor { get; set; }
         public int MinAttackDmg { get; set; }
         public int MaxAttackDmg { get; set; }
+        public int ConfusionTurnCounter { get; set; }
+        
+        Random rng = new Random();
 
         public Player()
         {
@@ -42,14 +45,39 @@ namespace Battle
             hasArmor = false;
             MinAttackDmg = 5;
             MaxAttackDmg = 10;
+            ConfusionTurnCounter = 0;
 
         }
         public void Attack(IMonster monster, int dmgAmount)
         {
-            monster.TakeDmg(dmgAmount);
-            string actionText = monster.Name + " takes " + dmgAmount + " damage!";
-            ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
-            Console.ReadKey();
+            if(ConfusionTurnCounter == 0) { this.PlayerCondition = Condition.Normal; }
+
+            if (PlayerCondition == Condition.Confused)
+            {                
+                if (rng.Next(1, 101) <= 50) //ouch
+                {
+                    this.TakeDmg(dmgAmount);
+                    string actionText = "In your confusion, you hit yourself for " +
+                        dmgAmount + " damage!";                        
+                    ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+                    Console.ReadKey();
+                }
+                else
+                {
+                    monster.TakeDmg(dmgAmount);
+                    string actionText = $"{monster.Name} takes {dmgAmount} damage!";
+                    ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+                    Console.ReadKey();
+                }
+                this.ConfusionTurnCounter--;
+            }
+            else
+            {
+                monster.TakeDmg(dmgAmount);
+                string actionText = monster.Name + " takes " + dmgAmount + " damage!";
+                ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+                Console.ReadKey();
+            }
         }
 
         public void TakeDmg(int dmgTaken)
