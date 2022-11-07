@@ -20,8 +20,6 @@ namespace Battle.Items
         }
         public override int GetHashCode()
         {
-            // Constant because equals tests mutable member.
-            // This will give poor hash performance, but will prevent bugs.
             return 0;
         }
         public override string ToString()

@@ -36,7 +36,6 @@ namespace Battle.Enemies
         {
             string actionText = "";
 
-            //if(true)
             if (rng.Next(1, 101) <= SPECIAL_CHANCE_PERCENTAGE) 
             {
                 Special(dmgAmount);
@@ -63,7 +62,7 @@ namespace Battle.Enemies
             if (this.StartingHP - this.CurrentHP >= bloodAmount)
                 this.CurrentHP += bloodAmount;
             else
-                CurrentHP = StartingHP; // go max
+                CurrentHP = StartingHP; // go max health
         }
 
         public void TakeDmg(int dmgTaken)

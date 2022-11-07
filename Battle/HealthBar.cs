@@ -43,41 +43,5 @@ namespace Battle
         }
 
 
-        //public static string UpdateHealthBar(int hpLost)
-        //{
-        //    string totalBar = "||||||||||||||||||||";
-        //    int barcount = 20;
-
-        //    string barDisplay = "[" + totalBar + "]";
-
-        //    hpLost = 5;
-
-        //    //Console.WriteLine(barDisplay);
-
-        //    string updated = signalHit(barcount, hpLost);
-
-        //    updated = "[" + updated + "]";
-        //    //Console.WriteLine(updated);
-
-
-
-
-        //    return "xxxxxxx";
-        //}
-
-        //static string signalHit(int totalCount, int lost)
-        //{
-        //    string fullString = "";
-
-        //    for (int i = 0; i < totalCount; i++)
-        //    {
-        //        if (i < (totalCount - lost))
-        //            fullString += "|";
-        //        else
-        //            fullString += " ";
-
-        //    }
-        //    return fullString;
-        //}
     }
 }

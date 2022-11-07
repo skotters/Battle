@@ -20,8 +20,8 @@ namespace Battle
             while(fighting)
             {
                 //round1
-                EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
-                //EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
+                //EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
+                EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
                 
                 //round2
                 if (!AskForNextFight(player)) { break; }
@@ -52,9 +52,8 @@ namespace Battle
             player.PlayerCondition = Condition.Normal;
             player.CurrentHP = player.StartingHP;
 
-            int whoseturn = 1; //player goes first
-            int playerConfusionCounter = 0; //used if player is confused.
-            int playerOption; //keyboard entry
+            int whoseturn = 1;   //player goes first
+            int playerOption;    //keyboard entry
             bool play = true;
             bool menuExitPerformed = false;
             Random rng = new Random();
@@ -71,7 +70,7 @@ namespace Battle
 
                     do
                     {
-                        badUserEntry = false; //reset on each new attempt.
+                        badUserEntry = false; //reset on each new user entry attempt.
                         try
                         {
                             
@@ -97,7 +96,7 @@ namespace Battle
                                         bool successfulHit = rng.Next(1, 101) >= 50; //50% chance to hit. 
                                         int tempMinAttackDmg = player.MinAttackDmg + 5;
                                         int tempMaxAttackDmg = player.MaxAttackDmg + 10;
-                                        //bool successfulHit = false; //testing only
+
                                         if (successfulHit)
                                             player.Attack(monster, rng.Next(tempMinAttackDmg, tempMaxAttackDmg));
                                         else
@@ -117,17 +116,33 @@ namespace Battle
                                     }
                                 case 3: //magic attack
                                     {
-                                        Console.WriteLine("magic attack pending...");
-                                        Console.ReadLine();
+                                        bool magicWasPerformed = false;
+
+                                        player.MagicMenuOpen = true;
+                                        magicWasPerformed = MagicManager.MagicSelection(monster, player);
+                                        player.MagicMenuOpen = false;
+                                        
+
+                                        if (monster.CurrentHP <= 0)
+                                        {
+                                            MonsterDefeated(monster, player, whoseturn);
+                                            play = false;
+                                        }
 
                                         // if magic WAS performed, then menuExitPerformed is false.
-                                        menuExitPerformed = true;
+                                        if (magicWasPerformed)
+                                            menuExitPerformed = false;
+                                        else
+                                        {
+                                            ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+                                            menuExitPerformed = true;
+                                        }
+
                                         break;
                                     }
-                                case 4:
+                                case 4: //open inventory
                                     {
                                         InventoryManager.InventoryMenu(player);
-                                        //Console.ReadLine(); //temp hold
                                         ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                         menuExitPerformed = true;
                                         break;
@@ -226,12 +241,8 @@ namespace Battle
                 ScreenManager.BattleScreenUpdate(monster, player, battleStatusText, 1);
             }
         }
-
-
         public bool IsSpecialVMonster(string name)
         {
-            
-
             return true;
         }
     }

@@ -19,13 +19,18 @@ namespace Battle
                    "4) Item\n" +
                    "5) Run Away";
         }
+        public static string GetMagicOptions()
+        {
+            return "1) Fireball\n" +
+                   "2) Arcane missiles\n" +
+                   "3) Heal\n\n" +
+                   "4) Go back\n";
+        }
 
         public static void BattleScreenUpdate(IMonster monster, Player player, string statusText, int whoseturn)
         {
             Console.Clear();
 
-            //string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            //string enemy = File.ReadAllText(filepath + monster.Type + ".txt");
             string enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
 
             Console.SetWindowSize(70, 30);
@@ -50,8 +55,21 @@ namespace Battle
 
             if (whoseturn == 1)
             {
-                Console.WriteLine(GetPlayerOptions());
-                Console.Write("\nAction: ");
+                /* the magic menu will not go into its own screen like 
+                 * the inventory does. Magic will still be a set of 
+                 * player options that can be performed while the 
+                 * user has visibility of the MP meter/bar on the battle screen.
+                 */
+                if (!player.MagicMenuOpen)
+                {
+                    Console.WriteLine(GetPlayerOptions());
+                    Console.Write("\nAction: ");
+                }
+                else
+                {
+                    Console.WriteLine(GetMagicOptions());
+                    Console.Write("\nAction: ");
+                }
             }
             else
                 Console.WriteLine("  (ok)");
@@ -62,14 +80,6 @@ namespace Battle
             Console.Clear();
             Console.WriteLine("current inventory...\n\n");
 
-            //foreach(IBagItems item in stuff)
-            //{
-            //    Console.WriteLine(item.ToString());
-            //}
-
-            //subtotal test
-            //Console.WriteLine("about to show subtotal... press key");
-            //Console.ReadLine();
             Console.WriteLine(InventoryManager.GetSubtotaledInventory(player.Inventory));
             Console.WriteLine("\n9) Go back");
             Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");

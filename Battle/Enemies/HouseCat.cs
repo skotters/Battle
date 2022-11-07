@@ -33,7 +33,6 @@ namespace Battle.Enemies
         {
             string actionText = "";
 
-            //if(true)
             if (rng.Next(1, 101) <= SPECIAL_CHANCE_PERCENTAGE)
             {
                 Special(player, dmgAmount);
@@ -66,7 +65,6 @@ namespace Battle.Enemies
 
         public void Special(Player player, int damage)
         {
-            //method even needed?
             //CAT GETS AN ADDITIONAL ATTACK
             player.TakeDmg(damage);
         }

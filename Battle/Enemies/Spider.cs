@@ -37,7 +37,6 @@ namespace Battle.Enemies
         {
             string actionText = "";
 
-            //if(true)
             if (rng.Next(1, 101) <= SPECIAL_CHANCE_PERCENTAGE)
             {
                 Special(player);

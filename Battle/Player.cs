@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace Battle
 {  
@@ -29,6 +31,7 @@ namespace Battle
         public int MinAttackDmg { get; set; }
         public int MaxAttackDmg { get; set; }
         public int ConfusionTurnCounter { get; set; }
+        public bool MagicMenuOpen { get; set; }
         
         Random rng = new Random();
 
@@ -46,7 +49,7 @@ namespace Battle
             MinAttackDmg = 5;
             MaxAttackDmg = 10;
             ConfusionTurnCounter = 0;
-
+            MagicMenuOpen = false;
         }
         public void Attack(IMonster monster, int dmgAmount)
         {
@@ -54,7 +57,7 @@ namespace Battle
 
             if (PlayerCondition == Condition.Confused)
             {                
-                if (rng.Next(1, 101) <= 50) //ouch
+                if (rng.Next(1, 101) <= 50) //50% chance player hits self.
                 {
                     this.TakeDmg(dmgAmount);
                     string actionText = "In your confusion, you hit yourself for " +
@@ -77,8 +80,35 @@ namespace Battle
                 string actionText = monster.Name + " takes " + dmgAmount + " damage!";
                 ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
                 Console.ReadKey();
+                ScreenManager.BattleScreenUpdate(monster, this, String.Empty, 2);
             }
         }
+        public void MagicAttack(IMonster monster, List<int> dmgAmount, MagicManager.SpellType spellType)
+        {
+            string actionText;
+
+            if (spellType == MagicManager.SpellType.Fireball)
+            {
+                monster.TakeDmg(dmgAmount[0]);
+                actionText = $"{monster.Name} takes {dmgAmount[0]} fireball damage!";
+                ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+                Console.ReadKey();
+            }
+            else
+            {
+                int arcaneDmgTotal = 0;
+                foreach(var item in dmgAmount)
+                {
+                    arcaneDmgTotal += item;
+                }
+                monster.TakeDmg(arcaneDmgTotal);
+                actionText = $"{monster.Name} was hit {dmgAmount.Count} times by\n" +
+                    $"arcane missles for {arcaneDmgTotal} damage!";
+                ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+                Console.ReadKey();
+            }
+        }
+
 
         public void TakeDmg(int dmgTaken)
         {
@@ -89,6 +119,19 @@ namespace Battle
 
             CurrentHP -= dmgTaken;
             playerHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+        }
+
+        public void HealHP(IMonster monster, Player player)
+        {
+            if (StartingHP - CurrentHP >= 20)
+                CurrentHP += 20;
+            else
+                CurrentHP = StartingHP;
+
+            playerHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            string actionText = $"You healed yourself for 20 HP";
+            ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
+            Console.ReadKey();
         }
     }
 }
