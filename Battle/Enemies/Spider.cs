@@ -13,7 +13,7 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
-        public HealthBar monsterHealthBar { get; set; }
+        public VisualMeter MonsterHealthBar { get; set; }
 
         
 
@@ -30,7 +30,7 @@ namespace Battle.Enemies
                 StartingHP = 100;
 
             CurrentHP = StartingHP;
-            monsterHealthBar = new HealthBar();
+            MonsterHealthBar = new VisualMeter();
 
         }
         public void Attack(Player player, int dmgAmount)
@@ -53,7 +53,7 @@ namespace Battle.Enemies
 
             ScreenManager.BattleScreenUpdate(this, player, actionText, 2);
             Console.ReadKey();
-            ScreenManager.BattleScreenUpdate(this, player, actionText, 1);
+            ScreenManager.BattleScreenUpdate(this, player, String.Empty, 1);
         }
 
         public void Special(Player player)
@@ -64,7 +64,7 @@ namespace Battle.Enemies
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;
-            monsterHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
 
     }

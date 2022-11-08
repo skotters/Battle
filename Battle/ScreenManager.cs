@@ -6,26 +6,52 @@ using System.Threading.Tasks;
 using System.IO;
 using Battle.Items;
 using System.Reflection;
+using System.Threading;
+
 
 namespace Battle
 {
     public static class ScreenManager
     {
-        public static string GetPlayerOptions()
+        public static void IntroScreen()
         {
-            return "1) Attack\n" +
-                   "2) Strong Attack\n" +
-                   "3) Magic\n" +
-                   "4) Item\n" +
-                   "5) Run Away";
+            Console.Clear();
+            Console.WriteLine
+                (
+                    "Welcome, traveller. You look hungry.\n" +
+                    "But to satisfy that hunger, you must fight.\n"
+                );
+
+            Console.WriteLine
+                (
+                    "In this game, you may fight up to five monsters\n" +
+                    "in the hopes of gaining enough gold\n" +
+                    "to buy something at your favorite bakery.\n\n" +
+                    "Beware, the enemies may have some tricks in their\n" +
+                    "arsenal that could have perilous results!\n" +
+                    "Also, be extra careful with enemies whose name\n" +
+                    "starts with the letter \'V\'. They do start with\n" +
+                    "more health than the average enemy.\n"
+                );
+
+            Console.WriteLine("Would you like to proceed in this endeavor?");
+
+            Console.Write("(y/n): ");
         }
-        public static string GetMagicOptions()
+
+        public static void AskToVisitStore(string playerName)
         {
-            return "1) Fireball\n" +
-                   "2) Arcane missiles\n" +
-                   "3) Heal\n\n" +
-                   "4) Go back\n";
+            Console.Clear();
+            Console.WriteLine
+                (
+                    $"\n{playerName}, before you go, would you like to visit the store?\n" +
+                    "This will be your only opportunity to buy things to help in your battles."
+                );
+
+            Console.Write("\n(y/n): ");
         }
+
+
 
         public static void BattleScreenUpdate(IMonster monster, Player player, string statusText, int whoseturn)
         {
@@ -33,23 +59,26 @@ namespace Battle
 
             string enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
 
-            Console.SetWindowSize(70, 30);
+            
 
             Console.WriteLine($"\tName: {monster.Name}");
             Console.WriteLine($"\tType: {monster.Type}");
-
             Console.WriteLine($"\tHP:   {monster.CurrentHP}");
-            Console.WriteLine($"\t      {monster.monsterHealthBar.BarConsoleUpdate(monster.StartingHP, monster.CurrentHP)}");
+
+            PrintVisualMeter(monster.StartingHP, monster.CurrentHP, true);
+
             Console.WriteLine();
             Console.WriteLine(enemy);
-
             Console.WriteLine($"\n\t{statusText}\n\n");
-            
             Console.WriteLine($"\t{player.Name}");
             Console.WriteLine($"\tHP:   {player.CurrentHP}\t{player.PlayerCondition}");
-            Console.WriteLine($"\t      {player.playerHealthBar.BarConsoleUpdate(player.StartingHP, player.CurrentHP)}");
+
+            PrintVisualMeter(player.StartingHP, player.CurrentHP, true);
+
             Console.WriteLine($"\tMP:   {player.CurrentMP}\t");
-            Console.WriteLine($"\t      [||||temp|||||]");
+
+            PrintVisualMeter(player.StartingMP, player.CurrentMP, false);
+
             Console.WriteLine($"\tGold: {player.gold}");
             Console.WriteLine();
 
@@ -74,6 +103,21 @@ namespace Battle
             else
                 Console.WriteLine("  (ok)");
         }
+        public static string GetPlayerOptions()
+        {
+            return "1) Attack\n" +
+                   "2) Strong Attack\t(50% miss chance)\n" +
+                   "3) Magic\n" +
+                   "4) Item\n" +
+                   "5) Run Away";
+        }
+        public static string GetMagicOptions()
+        {
+            return $"1) Fireball\t\t {MagicManager.FIREBALL_MP_COST}MP\n" +
+                   $"2) Arcane missiles\t {MagicManager.ARCANE_MP_COST}MP\n" +
+                   $"3) Heal\t\t\t {MagicManager.HEAL_MP_COST}MP\n" +
+                   $"4) Go back";
+        }
 
         public static void ShowInventoryScreen(Player player)
         {
@@ -83,6 +127,7 @@ namespace Battle
             Console.WriteLine(InventoryManager.GetSubtotaledInventory(player.Inventory));
             Console.WriteLine("\n9) Go back");
             Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");
+            Console.WriteLine($"Current MP: {player.CurrentMP}/{player.StartingMP}");
             Console.WriteLine($"Status: {player.PlayerCondition}");
         }
         public static void AfterFightScreen(Player player)
@@ -100,9 +145,10 @@ namespace Battle
         public static void VictoryScreen(Player player)
         {
             Console.Clear();
-            Console.WriteLine($"{player.Name}, you have won all the fights!\n\n");
+            Console.WriteLine($"{player.Name}, you have won all five fights!\n\n");
             Console.WriteLine("You are now headed to the bakery.\n\n");
             Console.WriteLine("(press any key to continue)");
+            Console.ReadKey();
         }
 
         public static void StoreFront(int goldAmount)
@@ -126,5 +172,165 @@ namespace Battle
                 );
         }
 
+        //startingAmt: beginning HP or MP
+        //currentAmt:  current HP or MP
+        public static void PrintVisualMeter(int startingAmt, int currentAmt, bool isHealthBar)
+        {
+            const int LOW_BAR_AMOUNT = 4;
+            string rawBarString= VisualMeter.GetFullMeterString(startingAmt, currentAmt);
+            int barCount = rawBarString.Count(f => f == '|');
+
+            Console.Write("\t[");
+
+            if (barCount <= LOW_BAR_AMOUNT) // display the bar red whether HP or MP
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(PrintBarsAndSpaces(barCount));
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("]");
+            }
+            else 
+            {
+                if(isHealthBar)
+                    Console.ForegroundColor = ConsoleColor.Green;   //health uses green
+                else
+                    Console.ForegroundColor = ConsoleColor.Blue;    //player mp meter uses blue
+
+                Console.Write(PrintBarsAndSpaces(barCount));
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("]");
+            }
+        }
+
+        public static string PrintBarsAndSpaces(int barCount)
+        {
+            string barString = "";
+
+            for (int i = 1; i <= 20; i++)
+            {
+                if (i <= barCount)
+                    barString += "|";
+                else
+                    barString += " ";
+            }
+            return barString;
+        }
+
+        public static void TravelingToBakery()
+        {
+            //screen only showed once per game at game end.
+            Console.Clear();
+            Console.WriteLine("You are now headed to the bakery!");
+
+            string bakeryBuilding = File.ReadAllText("Text/" + "bakerybuilding.txt");
+            Console.WriteLine(bakeryBuilding);
+
+            Console.WriteLine("(Press any key to continue)");
+            Console.ReadKey();
+        }
+
+        public static void BakeryScreen(Player player)
+        {
+            Console.Clear();
+
+            string bakeryChoices = File.ReadAllText("Text/" + "bakery.txt");
+            
+            Console.WriteLine(bakeryChoices);
+            Console.WriteLine();
+            Console.WriteLine($"Gold: {player.gold}\n");
+            Console.Write("Selection:  ");
+        }
+
+        public static void WaterPurchasedScreen()
+        {
+            Console.Clear();
+
+            Console.WriteLine
+                (
+                    "It was a rough battle to get here...\n" +
+                     "yet all you walked away with was your life\n " +
+                     "and something to quench your thirst.\n\n" +
+                     "Only your mind can taste the sweet glaze\n" +
+                     "of what ought to have been yours.\n\n" +
+
+                     "But there are always more battles..."
+                );
+
+            Console.WriteLine("(Press any key to continue)");
+            Console.ReadKey();
+        }
+        public static void GlazedDonutPurchasedScreen()
+        {
+            Console.Clear();
+
+            Console.WriteLine
+                (
+                    "The donut glaze crumbled around your fingers\n" + 
+                    "as you tossed the whole donut into your mouth.\n\n" + 
+                    "Although the reward of your battles proved to be\n" + 
+                    "worth it, the lure of bacon wafting through the air\n" + 
+                    "was a reminder that you could have fought better.\n\n" +
+                    
+                    "But there are always more battles..."
+                );
+
+            Console.WriteLine("(Press any key to continue)");
+            Console.ReadKey();
+        }
+        public static void MapleBaconDonutPurchasedScreen()
+        {
+            Console.Clear();
+
+            Console.WriteLine
+                (
+                    "It was at this point that the maple bacon donut\n" +
+                    "was finally in your grasp. Holding it up to the sunlight\n" + 
+                    "to examine its beauty as a swordsman observes the \n" + 
+                    "sharpness of his blade, you shed a single tear at the\n" +
+                    "sight of crispy brown pork delicately nestled within\n" + 
+                    "a layer of sugar born of a tree's sweet gift.\n\n" + 
+
+                    "The battle was over and your donut was gone in the blink\n" +
+                    "of an eye. Satisfied, you knew victory had been won. But your\n" + 
+                    "stomach companion would once again need to be cared for.\n\n" + 
+
+                    "And of course there are always more battles..."
+                );
+
+            Console.WriteLine("(Press any key to continue)");
+            Console.ReadKey();
+        }
+
+        public static void GetPlayerNameScreen()
+        {
+            Console.Clear();
+            Console.WriteLine
+                (
+                    "\n\nYour hunger seems to be insatiable.\n" +
+                    "It occurs to you that you will not be accompanied alone\n" +
+                    "on this adventure since your belly does have a mind of its own."
+                );
+
+            Console.WriteLine("What is your name, traveller?\n");
+            Console.Write("--> ");
+        }
+
+        public static void GameNeverStarted()
+        {
+            Console.Clear();
+            Console.WriteLine
+                (
+                    "\n\n\n\n\tWith a grumbly belly, you decide to venture\n" +
+                    "\tinto the unknown in the hopes that another\n" +
+                    "\tbakery presents itself."
+                );
+            Console.WriteLine("\n\n\t\tPress any key to close.");
+            Console.ReadKey();
+        }
+
+        public static void GameOverScreen()
+        {
+            Console.Clear();
+        }
     }
 }

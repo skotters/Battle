@@ -13,7 +13,7 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
-        public HealthBar monsterHealthBar { get; set; }
+        public VisualMeter MonsterHealthBar { get; set; }
 
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
@@ -29,7 +29,7 @@ namespace Battle.Enemies
                 StartingHP = 100;
 
             CurrentHP = StartingHP;
-            monsterHealthBar = new HealthBar();
+            MonsterHealthBar = new VisualMeter();
 
         }
         public void Attack(Player player, int dmgAmount)
@@ -68,7 +68,7 @@ namespace Battle.Enemies
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;
-            monsterHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
     }
 }

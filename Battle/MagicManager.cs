@@ -10,7 +10,11 @@ namespace Battle
     public static class MagicManager
     {
         public static List<int> dmgAmtHolder = new List<int>();
-        
+
+        public static int FIREBALL_MP_COST = 6;
+        public static int ARCANE_MP_COST = 10;
+        public static int HEAL_MP_COST = 8;
+
         public enum SpellType
         {
             Fireball,
@@ -37,20 +41,47 @@ namespace Battle
                     {
                         case 1: //fireball
                             {
-                                Fireball(monster, player);
-                                castedASpell = true;
+                                if (player.CurrentMP >= FIREBALL_MP_COST)
+                                {
+                                    Fireball(monster, player);
+                                    player.CurrentMP -= FIREBALL_MP_COST;
+                                    castedASpell = true;
+                                }
+                                else
+                                {
+                                    string outOfMagicText = "Not enough MP to cast";
+                                    ScreenManager.BattleScreenUpdate(monster, player, outOfMagicText, 1);
+                                }
                                 break;
                             }
                         case 2: //arcane missile
                             {
-                                ArcaneMissiles(monster, player);
-                                castedASpell = true;
+                                if (player.CurrentMP >= ARCANE_MP_COST)
+                                {
+                                    ArcaneMissiles(monster, player);
+                                    player.CurrentMP -= ARCANE_MP_COST;
+                                    castedASpell = true;
+                                }
+                                else
+                                {
+                                    string outOfMagicText = "Not enough MP to cast";
+                                    ScreenManager.BattleScreenUpdate(monster, player, outOfMagicText, 1);
+                                }
                                 break;
                             }
                         case 3: //heal self
                             {
-                                HealSelf(monster, player);
-                                castedASpell = true;
+                                if (player.CurrentMP >= HEAL_MP_COST)
+                                {
+                                    HealSelf(monster, player);
+                                    player.CurrentMP -= HEAL_MP_COST;
+                                    castedASpell = true;
+                                }
+                                else
+                                {
+                                    string outOfMagicText = "Not enough MP to cast";
+                                    ScreenManager.BattleScreenUpdate(monster, player, outOfMagicText, 1);
+                                }
                                 break;
                             }
                         case 4: //go back
@@ -59,12 +90,19 @@ namespace Battle
                                 break;
                             }
                         default: //bad entry
-                            break;
+                            {
+                                Console.WriteLine("\tInvalid entry.    (ok)");
+                                Console.ReadKey();
+                                ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+                                break;
+                            }
                     }
                 }
                 catch
                 {
-
+                    Console.WriteLine("\tInvalid entry.   (ok)");
+                    Console.ReadKey();
+                    ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                 }
             }
             while (!castedASpell);

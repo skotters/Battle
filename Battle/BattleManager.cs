@@ -11,40 +11,47 @@ namespace Battle
 {
     public class BattleManager
     {
+        public bool goToBakery = false;
         public void BattleSetup(Player player)
         {
             MonsterNames.LoadFullJSON();
 
             bool fighting = true;
-            
+
             while(fighting)
             {
                 //round1
-                //EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
                 EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
+                if (goToBakery) { break; }
                 
                 //round2
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Ghost(MonsterNames.GetMonsterName()));
+                if (goToBakery) { break; }
 
                 //round3
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
+                if (goToBakery) { break; }
 
                 //round4
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Spider(MonsterNames.GetMonsterName()));
+                if (goToBakery) { break; }
 
                 //round5
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
+                if (goToBakery) { break; }
 
                 ScreenManager.VictoryScreen(player);
 
                 fighting = false;
             }
 
-            Console.WriteLine("entering the bakery");
+            Console.WriteLine("entering the bakery...");
+            
+
         }
 
         public void EnterBattle(Player player, IMonster monster)
@@ -147,13 +154,30 @@ namespace Battle
                                         menuExitPerformed = true;
                                         break;
                                     }
-                                case 5: // 50% chance to get away and go to bakery
+                                case 5: // 15% chance to get away and go to bakery
                                     {
-                                        Console.WriteLine("run away!");
+                                        bool successfulEscape = rng.Next(1, 101) <= 15; 
+                                        string actionText;
+
+                                        if (successfulEscape)
+                                        {
+                                            actionText = "You were able to run away!";
+                                            ScreenManager.BattleScreenUpdate(monster, player, actionText, 1);
+                                            Console.WriteLine(" (ok) ");
+                                            Console.ReadLine();
+                                            goToBakery = true;
+                                            play = false;
+                                        }
+                                        else
+                                        {
+                                            actionText = "You failed to run away!";
+                                            ScreenManager.BattleScreenUpdate(monster, player, actionText, 2);
+                                            Console.ReadKey();
+                                        }
                                         break;
                                     }
                                 default: //bad number
-                                    Console.WriteLine("\tInvalid entry.\n\n (ok)");
+                                    Console.WriteLine("\tInvalid entry.    (ok)");
                                     Console.ReadKey();
                                     ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                     badUserEntry = true;
@@ -162,7 +186,7 @@ namespace Battle
                         }
                         catch //non-number catch
                         {
-                            Console.WriteLine("\tInvalid entry.\n\n (ok)");
+                            Console.WriteLine("\tInvalid entry.    (ok)");
                             Console.ReadKey();
                             ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                             badUserEntry = true;
@@ -188,13 +212,15 @@ namespace Battle
                     whoseturn = 1;
                 }
             }
+
+
         }   
 
         public void MonsterDefeated(IMonster monster, Player player, int whoseturn)
         {
             string defeatText = 
-                monster.Name + " was defeated!\n" +
-                "\t\tYou gain 50 gold.";
+                $"{ monster.Name} was defeated!\n" +
+                $"\t\tYou gain 50 gold.";
 
             player.gold += 50;
             ScreenManager.BattleScreenUpdate(monster, player, defeatText, whoseturn);

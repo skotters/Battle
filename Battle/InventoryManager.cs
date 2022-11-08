@@ -32,7 +32,7 @@ namespace Battle
             foreach (IBagItems item in stuff)
             {
                 if (subtotalInventory.ContainsKey(item))
-                    subtotalInventory[item]++;              //increments the int value (quantity of item)
+                    subtotalInventory[item]++;              //increments the int dict value (quantity of item)
                 else
                     subtotalInventory.Add(item, 1);         //new addition of item to dict
             }
@@ -71,7 +71,7 @@ namespace Battle
                 Console.Write("\nEnter number: ");
                 int option = Convert.ToInt32(Console.ReadLine()) - 1;
 
-                //player chose option 9
+                //option works with zero based list, need to re-increment for a break
                 if (option + 1 == 9)
                 { 
                     break;

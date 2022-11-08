@@ -23,7 +23,8 @@ namespace Battle
         public int StartingMP { get; set; }
         public int CurrentMP { get; set; }
         public Condition PlayerCondition { get; set; }
-        public HealthBar playerHealthBar { get; set; }
+        public VisualMeter PlayerHealthBar { get; set; }
+        public VisualMeter playerMPBar { get; set; } //yes, using a healthbar for the MP...
         public int gold { get; set; } = 50;
         public List<IBagItems> Inventory { get; set; }
         public bool hasSword { get; set; }
@@ -41,13 +42,14 @@ namespace Battle
             CurrentHP = StartingHP;
             StartingMP = 20;
             CurrentMP = StartingMP;
-            playerHealthBar = new HealthBar();
+            PlayerHealthBar = new VisualMeter();
+            playerMPBar = new VisualMeter();      
             PlayerCondition = Condition.Normal;
             Inventory = new List<IBagItems>();
             hasSword = false;
             hasArmor = false;
             MinAttackDmg = 5;
-            MaxAttackDmg = 10;
+            MaxAttackDmg = 8;
             ConfusionTurnCounter = 0;
             MagicMenuOpen = false;
         }
@@ -85,6 +87,8 @@ namespace Battle
         }
         public void MagicAttack(IMonster monster, List<int> dmgAmount, MagicManager.SpellType spellType)
         {
+            //only two offensive magic attacks in place, only need a single if/else
+
             string actionText;
 
             if (spellType == MagicManager.SpellType.Fireball)
@@ -94,7 +98,7 @@ namespace Battle
                 ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
                 Console.ReadKey();
             }
-            else
+            else //arcane missiles...
             {
                 int arcaneDmgTotal = 0;
                 foreach(var item in dmgAmount)
@@ -103,7 +107,7 @@ namespace Battle
                 }
                 monster.TakeDmg(arcaneDmgTotal);
                 actionText = $"{monster.Name} was hit {dmgAmount.Count} times by\n" +
-                    $"arcane missles for {arcaneDmgTotal} damage!";
+                    $"\tarcane missles for {arcaneDmgTotal} damage!";
                 ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
                 Console.ReadKey();
             }
@@ -118,7 +122,7 @@ namespace Battle
                 dmgTaken = 0; 
 
             CurrentHP -= dmgTaken;
-            playerHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
 
         public void HealHP(IMonster monster, Player player)
@@ -128,7 +132,7 @@ namespace Battle
             else
                 CurrentHP = StartingHP;
 
-            playerHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
             string actionText = $"You healed yourself for 20 HP";
             ScreenManager.BattleScreenUpdate(monster, this, actionText, 2);
             Console.ReadKey();

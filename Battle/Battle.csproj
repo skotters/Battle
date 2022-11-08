@@ -18,6 +18,9 @@
     <None Update="Text\bakery.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Text\bakerybuilding.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Text\Grumpy.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -4,4 +4,4 @@
       \__/           \       /           \_________/
                       '-----'
 1) cup of water   2) glazed donut    3) Maple bacon donut
-   cost: free        cost: 30 gold      cost: 50 gold
+   cost: free        cost: 100 gold      cost: 150 gold

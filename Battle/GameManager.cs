@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Battle.Enemies;
@@ -12,64 +13,88 @@ namespace Battle
         public void StartGame()
         {
             string startingName = "";
-            string visitStore = "";
+            bool visitStore;
 
-            Console.Clear();
-            Console.WriteLine
-                (
-                    "\n\nYour hunger seems to be insatiable.\n" + 
-                    "It occurs to you that you will not be accompanied alone\n" + 
-                    "on this adventure since your belly does have a mind of its own."
-                );
-
-            Console.WriteLine("What is your name, traveller?\n");
-            Console.Write("--> ");
-
-            startingName = Console.ReadLine();
+            startingName = GetValidPlayerName();
 
             Player p1 = new Player();
-
             p1.Name = startingName;
 
-            Console.Clear();
-            Console.WriteLine
-                (
-                    $"\n{startingName}, before you go, would you like to visit the store?\n" +
-                    "This will be your only opportunity to buy things to help in your battles."
-                );
-
-            Console.Write("\n(y/n): ");
-            visitStore = Console.ReadLine();
-
-            if (visitStore.ToLower() == "y")
-            {
-                Console.WriteLine("youre heading to the store...");
-                Store.GoShopping(p1);
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine($"You are bold, {p1.Name}.");
-                Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
-            }
-
-            Console.Clear();
-            //Console.WriteLine("entering monster creation stage...");
+            ScreenManager.AskToVisitStore(p1.Name);
+            visitStore = PromptUserForStoreEntry(p1.Name);
+            if(visitStore) { Store.GoShopping(p1); }
 
             BattleManager battle = new BattleManager();
             battle.BattleSetup(p1);
 
-                        
+            ScreenManager.TravelingToBakery();
+            BakeryManager.OpenBakery(p1);
 
-
-            Console.WriteLine("hold...");
+            Console.WriteLine("\n\ntemporary hold........");
             Console.ReadLine();
-
-
-            
 
             Console.WriteLine("game over.");
         }
 
+        public static string GetValidPlayerName()
+        {
+            bool validName;
+            string name;
+
+            do
+            {
+                validName = true;
+                ScreenManager.GetPlayerNameScreen();
+                name = Console.ReadLine();
+
+                if (
+                    name.Count(f => f == ' ') == name.Length ||
+                    name[0] == ' '
+                   ) //if name starts with space or is all spaces...
+                        {
+                            Console.WriteLine("\nInvalid name  (ok)");
+                            Console.ReadKey();
+                            ScreenManager.GetPlayerNameScreen();
+                            validName = false;
+                        }
+
+            } while (!validName);
+
+            return name;
+        }
+
+        public static bool PromptUserForStoreEntry(string playerName)
+        {
+            bool validEntry = false;
+            do
+            {
+                string playerOption;
+                var keyPress = Console.ReadKey();
+                playerOption = keyPress.KeyChar.ToString();
+
+                if (playerOption.ToLower() == "y")
+                {
+                    return true;
+                }
+                else if (playerOption.ToLower() == "n")
+                {
+                    Console.Clear();
+                    Console.WriteLine($"You are bold, {playerName}.");
+                    Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
+                    Console.WriteLine("\n (Press any key) ");
+                    Console.ReadKey();
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("\n\nInvalid Entry (ok)");
+                    Console.ReadKey();
+                    ScreenManager.IntroScreen();
+                }
+
+                return true; //default...
+
+            } while (!validEntry);
+        }
     }
 }

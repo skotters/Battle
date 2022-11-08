@@ -10,6 +10,7 @@ using System.IO.IsolatedStorage;
 
 namespace Battle
 {
+    // gets a random lorem ipsum "name" from placeholder api
     public static class MonsterNames
     {
         private static List<JSONDummy> JSONDummies { get; set; }
@@ -34,12 +35,12 @@ namespace Battle
             Random rng = new Random();
 
             //select a random JSONDummy object from JSONDummies list
-            //take that dummy title text and find random lorem ipsum "name" within the title.
+            //take that dummy title text and find the random lorem ipsum "name" within the title.
             int dummyIndex = rng.Next(0, JSONDummies.Count);
             string[] names = JSONDummies[dummyIndex].title.Split(" ");
 
             string lowerCaseName;
-            string properName = "";
+            string properName = ""; //used to have first letter capitalized in name
 
             do
             {

@@ -12,7 +12,7 @@ namespace Battle
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
         public string Type { get; set; }
-        public HealthBar monsterHealthBar { get; set; }
+        public VisualMeter MonsterHealthBar { get; set; }
         public void Attack(Player player, int dmgAmount);
         public void TakeDmg(int dmgTaken); 
     }

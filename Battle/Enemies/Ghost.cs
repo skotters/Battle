@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
-        public HealthBar monsterHealthBar { get; set; }
+        public VisualMeter MonsterHealthBar { get; set; }
 
         const int SPECIAL_CHANCE_PERCENTAGE = 15;
         Random rng = new Random();
@@ -21,7 +21,7 @@
                 StartingHP = 100;
 
             CurrentHP = StartingHP;
-            monsterHealthBar = new HealthBar();
+            MonsterHealthBar = new VisualMeter();
 
         }
         public void Attack(Player player, int dmgAmount)
@@ -44,12 +44,12 @@
 
             ScreenManager.BattleScreenUpdate(this, player, actionText, 2);
             Console.ReadKey();
-            ScreenManager.BattleScreenUpdate(this, player, actionText, 1);
+            ScreenManager.BattleScreenUpdate(this, player, String.Empty, 1);
         }
 
         public void Special(Player player)
         {
-            //GHOST STEALS GOLD
+            //GHOST STEALS GOLD FROM PLAYER
             if (player.gold > 5)
                 player.gold -= 5;
             else
@@ -59,7 +59,7 @@
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;
-            monsterHealthBar.BarConsoleUpdate(StartingHP, CurrentHP);
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
     
 

@@ -30,8 +30,8 @@ namespace Battle.Items
 
         public void UseItem(Player player)
         {
-            if (player.StartingMP - player.CurrentMP >= 5)
-                player.CurrentMP += 5;
+            if (player.StartingMP - player.CurrentMP >= 10)
+                player.CurrentMP += 10;
             else
                 player.CurrentMP = 20;
         }
