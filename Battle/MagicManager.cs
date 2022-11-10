@@ -91,7 +91,7 @@ namespace Battle
                             }
                         default: //bad entry
                             {
-                                Console.WriteLine("\tInvalid entry.    (ok)");
+                                Console.WriteLine("\tInvalid entry.    (press any key)");
                                 Console.ReadKey();
                                 ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                 break;
@@ -100,7 +100,7 @@ namespace Battle
                 }
                 catch
                 {
-                    Console.WriteLine("\tInvalid entry.   (ok)");
+                    Console.WriteLine("\tInvalid entry.   (press any key)");
                     Console.ReadKey();
                     ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                 }

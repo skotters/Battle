@@ -16,7 +16,7 @@ namespace Battle
         public static bool InventoryMenu(Player player)
         {
 
-                OpenWindow(player.Inventory, player); 
+            OpenWindow(player.Inventory, player); 
 
             return true;
         }
@@ -55,46 +55,54 @@ namespace Battle
 
             Console.WriteLine("__________________");
 
-            bool go = true;
-
-            while (go)
+            while (true) //stay here until player enters option 9 to exit menu
             {
-                ScreenManager.ShowInventoryScreen(player);
-                nameHolder = new List<string>(); //reset
-
-                foreach (var item in subtotalInventory)
+                try
                 {
-                    nameHolder.Add(item.Key.ToString());
-                    i++;
+                    
+                        ScreenManager.ShowInventoryScreen(player, stuff.Count);
+                        nameHolder = new List<string>(); //reset
+
+                        foreach (var item in subtotalInventory)
+                        {
+                            nameHolder.Add(item.Key.ToString());
+                            i++;
+                        }
+                    
+
+
+                    Console.Write("\nEnter number: ");
+                    int option = Convert.ToInt32(Console.ReadLine()) - 1;
+
+                    //option works with zero based list, need to re-increment for a break
+                    if (option + 1 == 9)
+                    {
+                        break;
+                    }
+
+                    UseStuff(nameHolder[option], stuff, player);
                 }
-
-                Console.Write("\nEnter number: ");
-                int option = Convert.ToInt32(Console.ReadLine()) - 1;
-
-                //option works with zero based list, need to re-increment for a break
-                if (option + 1 == 9)
-                { 
-                    break;
+                catch
+                {
+                    Console.WriteLine("\tInvalid entry.    (press any key)");
+                    Console.ReadKey();
                 }
-
-                Console.WriteLine("You chose list option # " + option);
-
-                UseStuff(nameHolder[option], stuff, player);
             }
         }
 
         static public void UseStuff(string itemKey, List<IBagItems> stuff, Player player)
         {
 
-            Console.WriteLine("initial list before removal... count: " + stuff.Count);
-            // *********** initial full equip list **********
-            foreach (var item in stuff)
-            {
-                Console.WriteLine(item.Name);
-            }
+            //Console.WriteLine("initial list before removal... count: " + stuff.Count);
+            //// *********** initial full equip list **********
+            //foreach (var item in stuff)
+            //{
+            //    Console.WriteLine(item.Name);
+            //}
             
 
-            Console.WriteLine("\n\nlooking to use/remote an item from list...");
+            //Console.WriteLine("\n\nlooking to use/remote an item from list...");
+
             foreach (IBagItems item in stuff)
             {
                 //remove item from list if found...
@@ -107,12 +115,12 @@ namespace Battle
                 }
             }
 
-            Console.WriteLine("\n\ninitial list after removal... count: " + stuff.Count);
-            // *********** initial full equip list **********
-            foreach (var item in stuff)
-            {
-                Console.WriteLine(item.Name);
-            }
+            //Console.WriteLine("\n\ninitial list after removal... count: " + stuff.Count);
+            //// *********** initial full equip list **********
+            //foreach (var item in stuff)
+            //{
+            //    Console.WriteLine(item.Name);
+            //}
         }
 
 

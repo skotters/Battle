@@ -12,6 +12,8 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
+        public int MinAttackDmg { get; set; }
+        public int MaxAttackDmg { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
@@ -20,6 +22,9 @@ namespace Battle.Enemies
         {
             Type = "Grumpy";
             Name = randomName;
+            MinAttackDmg = 5;
+            MaxAttackDmg = 8;
+
             if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;
             else
@@ -35,17 +40,18 @@ namespace Battle.Enemies
 
             if (rng.Next(1, 101) <= SPECIAL_CHANCE_PERCENTAGE)
             {
-                Special(player, dmgAmount);
-                actionText = "There's a reason these things aren't man's best friend.\n\t\t" +
+                //Special(player, dmgAmount);
+                actionText = "This cat has no chill.\n\t\t" +
                              "It got angry and swiped twice with a hiss!\n\t\t";
+                Special(player, dmgAmount);
                 player.TakeDmg(dmgAmount);
 
                 if (player.hasArmor && dmgAmount >= 2)
-                    actionText += $"{this.Name} hit you for {dmgAmount - 2} damage.";
+                    actionText += $"{this.Name} hit you for {(dmgAmount * 2) - 4} damage.";
                 else if (player.hasArmor)
                     actionText += $"{this.Name} hit you for 0 damage.";
                 else
-                    actionText += $"{this.Name} hit you for {dmgAmount} damage.";
+                    actionText += $"{this.Name} hit you for {dmgAmount * 2} damage.";
             }
             else
             {

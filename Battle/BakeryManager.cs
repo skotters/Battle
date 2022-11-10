@@ -40,7 +40,7 @@ namespace Battle
                                 else
                                 {
                                     Console.WriteLine("\n\nNot enough gold...");
-                                    Console.WriteLine("(ok)");
+                                    Console.WriteLine("(press any key)");
                                     Console.ReadKey();
 
                                 }
@@ -56,14 +56,14 @@ namespace Battle
                                 else
                                 {
                                     Console.WriteLine("\n\nNot enough gold...");
-                                    Console.WriteLine("(ok)");
+                                    Console.WriteLine("(press any key)");
                                     Console.ReadKey();
                                 }
                                 break;
                             }
                         default: //bad entry
                             {
-                                Console.WriteLine("\n\tInvalid entry.    (ok)");
+                                Console.WriteLine("\n\tInvalid entry.    (press any key)");
                                 Console.ReadKey();
                                 ScreenManager.BakeryScreen(player);
                                 break;
@@ -72,7 +72,7 @@ namespace Battle
                 }
                 catch
                 {
-                    Console.WriteLine("\n\tInvalid entry.    (ok)");
+                    Console.WriteLine("\n\tInvalid entry.    (press any key)");
                     Console.ReadKey();
                     ScreenManager.BakeryScreen(player);
                     

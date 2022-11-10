@@ -12,14 +12,19 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
+        public int MinAttackDmg { get; set; }
+        public int MaxAttackDmg { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
 
-        const int SPECIAL_CHANCE_PERCENTAGE = 30;
+        const int SPECIAL_CHANCE_PERCENTAGE = 25;
         Random rng = new Random();
         public Ufo(string randomName)
         {
             Type = "Area 51 escapee";
             Name = randomName;
+            MinAttackDmg = 4;
+            MaxAttackDmg = 7;
+
             if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;
             else
@@ -56,7 +61,7 @@ namespace Battle.Enemies
         public void Special(Player player)
         {
             player.PlayerCondition = Condition.Confused;
-            player.ConfusionTurnCounter = 3;
+            player.ConfusionTurnCounter = 3; //player confused for 3 turns
         }
 
         public void TakeDmg(int dmgTaken)

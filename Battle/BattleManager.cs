@@ -17,44 +17,47 @@ namespace Battle
             MonsterNames.LoadFullJSON();
 
             bool fighting = true;
+            bool playerIsAlive;
 
             while(fighting)
             {
                 //round1
-                EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
+                playerIsAlive = EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
+                if (!playerIsAlive) { break; }
                 
                 //round2
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Ghost(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
+                if (!playerIsAlive) { break; }
 
                 //round3
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
+                if (!playerIsAlive) { break; }
 
                 //round4
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Spider(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
+                if (!playerIsAlive) { break; }
 
                 //round5
                 if (!AskForNextFight(player)) { break; }
                 EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
+                if (!playerIsAlive) { break; }
 
                 ScreenManager.VictoryScreen(player);
 
                 fighting = false;
             }
 
-            Console.WriteLine("entering the bakery...");
-            
+        }//fully exiting battle stage
 
-        }
-
-        public void EnterBattle(Player player, IMonster monster)
+        public bool EnterBattle(Player player, IMonster monster)
         {
             player.PlayerCondition = Condition.Normal;
             player.CurrentHP = player.StartingHP;
@@ -72,8 +75,12 @@ namespace Battle
             {
                 if (whoseturn == 1) //player turn
                 {
+                    // poison persists until player uses an
+                    // antidote or the fight ends.
+                    CheckForPoisonDamage(monster, player);
+
                     bool badUserEntry = false;
-                    Poisoncheck(monster, player);
+                    menuExitPerformed = false;
 
                     do
                     {
@@ -136,13 +143,15 @@ namespace Battle
                                             play = false;
                                         }
 
-                                        // if magic WAS performed, then menuExitPerformed is false.
+                                        // if magic WAS performed, then the
+                                        // player turn is used up and menuExitPerformed is false.
                                         if (magicWasPerformed)
                                             menuExitPerformed = false;
                                         else
                                         {
+                                            //player continues current turn
                                             ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
-                                            menuExitPerformed = true;
+                                            menuExitPerformed = true; 
                                         }
 
                                         break;
@@ -151,6 +160,10 @@ namespace Battle
                                     {
                                         InventoryManager.InventoryMenu(player);
                                         ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
+
+                                        //Player can always use inventory items and 
+                                        //still remain in current turn, therefore inventory
+                                        //menu exit is always true.
                                         menuExitPerformed = true;
                                         break;
                                     }
@@ -163,7 +176,7 @@ namespace Battle
                                         {
                                             actionText = "You were able to run away!";
                                             ScreenManager.BattleScreenUpdate(monster, player, actionText, 1);
-                                            Console.WriteLine(" (ok) ");
+                                            Console.WriteLine(" (press any key) ");
                                             Console.ReadLine();
                                             goToBakery = true;
                                             play = false;
@@ -176,8 +189,8 @@ namespace Battle
                                         }
                                         break;
                                     }
-                                default: //bad number
-                                    Console.WriteLine("\tInvalid entry.    (ok)");
+                                default: //no number match
+                                    Console.WriteLine("\tInvalid entry.    (press any key)");
                                     Console.ReadKey();
                                     ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                     badUserEntry = true;
@@ -186,7 +199,7 @@ namespace Battle
                         }
                         catch //non-number catch
                         {
-                            Console.WriteLine("\tInvalid entry.    (ok)");
+                            Console.WriteLine("\tInvalid entry.    (press any key)");
                             Console.ReadKey();
                             ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                             badUserEntry = true;
@@ -202,17 +215,18 @@ namespace Battle
                 }
                 else //enemy turn
                 {
-                    monster.Attack(player, rng.Next(1, 7));
+                    monster.Attack(player, rng.Next(monster.MinAttackDmg, monster.MaxAttackDmg));
                     if (player.CurrentHP <= 0) 
-                    { 
-                        play = false;
-                        Console.WriteLine("you dead.");
+                    {
+                        return false;
+                        //ScreenManager.DeathScreen(monster, player);
                     }
                     
                     whoseturn = 1;
                 }
             }
 
+            return true; //player survived the fight.
 
         }   
 
@@ -231,39 +245,54 @@ namespace Battle
         public bool AskForNextFight(Player player)
         {
             int playerOption;
-            ScreenManager.AfterFightScreen(player);
+            bool badUserEntry;
 
-            var keyPress = Console.ReadKey();
-            playerOption = int.Parse(keyPress.KeyChar.ToString());
-
-            switch (playerOption)
+            do
             {
-                case 1: //keep fighting
+                ScreenManager.AfterFightScreen(player);
+                badUserEntry = false;
+
+                try
+                {
+                    var keyPress = Console.ReadKey();
+                    playerOption = int.Parse(keyPress.KeyChar.ToString());
+
+                    switch (playerOption)
                     {
-                        return true;
-                        break;
+                        case 1: //keep fighting
+                            return true;
+                        case 2: //go to bakery
+                            return false;
+                        default:
+                            {
+                                Console.WriteLine("\n\tInvalid entry.    (press any key)");
+                                Console.ReadKey();
+                                ScreenManager.AfterFightScreen(player);
+                                badUserEntry = true;
+                                break;
+                            }
                     }
-                case 2: //go to bakery
-                    {
-                        return false;
-                        break;
-                    }
-                default:
-                    {
-                        return false;
-                        break;
-                    }
-            }
+                }
+                catch
+                {
+                    Console.WriteLine("\n\tInvalid entry.    (press any key)");
+                    Console.ReadKey();
+                    ScreenManager.AfterFightScreen(player);
+                    badUserEntry = true;
+                }
+            } while (badUserEntry);
+            
+            return true; //default yes to next fight.
         }
 
-        public void Poisoncheck(IMonster monster, Player player)
+        public void CheckForPoisonDamage(IMonster monster, Player player)
         {
-            int poisonDmg = 3;
-            string battleStatusText = $"You took {poisonDmg} damage from the poison.";
+            int poisonDmgToPlayer = 5;
+            string battleStatusText = $"You took {poisonDmgToPlayer} damage from the poison.";
 
             if (player.PlayerCondition == Condition.Poisoned)
             {
-                player.CurrentHP -= poisonDmg;
+                player.CurrentHP -= poisonDmgToPlayer;
                 ScreenManager.BattleScreenUpdate(monster, player, battleStatusText, 1);
             }
         }

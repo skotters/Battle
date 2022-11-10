@@ -31,6 +31,7 @@ namespace Battle
                     GameManager game = new GameManager();
                     game.StartGame();
                     validEntry = true;
+                    System.Environment.Exit(0);
                 }
                 else if(playerOption.ToLower() == "n")
                 {
@@ -39,7 +40,7 @@ namespace Battle
                 }
                 else
                 {
-                    Console.WriteLine("\n\nInvalid Entry (ok)");
+                    Console.WriteLine("\n\nInvalid Entry (press any key)");
                     Console.ReadKey();
                     ScreenManager.IntroScreen();
                 }

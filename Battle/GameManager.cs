@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Battle.Enemies;
 
@@ -12,28 +13,38 @@ namespace Battle
     {
         public void StartGame()
         {
-            string startingName = "";
+            bool gameOn;
             bool visitStore;
+            string startingName;
 
             startingName = GetValidPlayerName();
 
-            Player p1 = new Player();
-            p1.Name = startingName;
+            do  //primary program loop
+            {
+                Player p1 = new Player();
+                p1.Name = startingName;
 
-            ScreenManager.AskToVisitStore(p1.Name);
-            visitStore = PromptUserForStoreEntry(p1.Name);
-            if(visitStore) { Store.GoShopping(p1); }
+                ScreenManager.AskToVisitStore(p1.Name);
+                visitStore = PromptUserForStoreEntry(p1.Name);
+                if (visitStore) { Store.GoShopping(p1); }
 
-            BattleManager battle = new BattleManager();
-            battle.BattleSetup(p1);
+                BattleManager battle = new BattleManager();
+                battle.BattleSetup(p1);
 
-            ScreenManager.TravelingToBakery();
-            BakeryManager.OpenBakery(p1);
+                if (p1.CurrentHP <= 0)
+                {
+                    ScreenManager.DeathScreen(p1.Name);
+                    Console.ReadKey();
+                }
+                else
+                {
+                    ScreenManager.TravelingToBakery();
+                    BakeryManager.OpenBakery(p1);
+                }
 
-            Console.WriteLine("\n\ntemporary hold........");
-            Console.ReadLine();
+                gameOn = GameOverContinuePrompt();
 
-            Console.WriteLine("game over.");
+            } while (gameOn);
         }
 
         public static string GetValidPlayerName()
@@ -52,7 +63,7 @@ namespace Battle
                     name[0] == ' '
                    ) //if name starts with space or is all spaces...
                         {
-                            Console.WriteLine("\nInvalid name  (ok)");
+                            Console.WriteLine("\nInvalid name  (press any key)");
                             Console.ReadKey();
                             ScreenManager.GetPlayerNameScreen();
                             validName = false;
@@ -81,20 +92,65 @@ namespace Battle
                     Console.Clear();
                     Console.WriteLine($"You are bold, {playerName}.");
                     Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
-                    Console.WriteLine("\n (Press any key) ");
+                    Console.WriteLine("\n (press any key) ");
                     Console.ReadKey();
                     return false;
                 }
                 else
                 {
-                    Console.WriteLine("\n\nInvalid Entry (ok)");
+                    Console.WriteLine("\n\nInvalid Entry (press any key)");
                     Console.ReadKey();
-                    ScreenManager.IntroScreen();
+                    ScreenManager.AskToVisitStore(playerName);
                 }
 
-                return true; //default...
 
             } while (!validEntry);
+            
+            return true; //default...
+        }
+        public static bool GameOverContinuePrompt()
+        {
+            bool badUserEntry;
+            int playerOption;
+
+            do
+            {
+                ScreenManager.GameOverScreen();
+                Console.Write("\n\n\t\tAction: ");
+                badUserEntry = false;
+
+                try
+                {
+
+                    var keyPress = Console.ReadKey();
+                    playerOption = int.Parse(keyPress.KeyChar.ToString());
+
+                    switch (playerOption)
+                    {
+                        case 1:
+                            return true;
+                        case 2: 
+                            return false;
+                        default: //no number match
+                            Console.WriteLine("\n\tInvalid entry.    (press any key)");
+                            Console.ReadKey();
+                            ScreenManager.GameOverScreen();
+                            badUserEntry = true;
+                            break;
+                    }
+                }
+                catch //non-number catch
+                {
+                    Console.WriteLine("\n\tInvalid entry.    (press any key)");
+                    Console.ReadKey();
+                    ScreenManager.GameOverScreen();
+                    badUserEntry = true;
+                }
+            }
+            while (badUserEntry);
+
+            return false;
+
         }
     }
 }

@@ -38,28 +38,36 @@ namespace Battle
 
             Console.Write("(y/n): ");
         }
+        public static void GetPlayerNameScreen()
+        {
+            Console.Clear();
+            Console.WriteLine
+                (
+                    "\n\nYour hunger seems to be insatiable.\n" +
+                    "It occurs to you that you will not be accompanied alone\n" +
+                    "on this adventure since your belly does have a mind of its own."
+                );
 
+            Console.WriteLine("\nWhat is your name, traveller?\n");
+            Console.Write("--> ");
+        }
         public static void AskToVisitStore(string playerName)
         {
             Console.Clear();
             Console.WriteLine
                 (
                     $"\n{playerName}, before you go, would you like to visit the store?\n" +
-                    "This will be your only opportunity to buy things to help in your battles."
+                    "\nThis will be your only opportunity to " +
+                    "\nbuy things to help in your battles."
                 );
 
             Console.Write("\n(y/n): ");
         }
-
-
-
         public static void BattleScreenUpdate(IMonster monster, Player player, string statusText, int whoseturn)
         {
             Console.Clear();
 
             string enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
-
-            
 
             Console.WriteLine($"\tName: {monster.Name}");
             Console.WriteLine($"\tType: {monster.Type}");
@@ -90,18 +98,14 @@ namespace Battle
                  * user has visibility of the MP meter/bar on the battle screen.
                  */
                 if (!player.MagicMenuOpen)
-                {
                     Console.WriteLine(GetPlayerOptions());
-                    Console.Write("\nAction: ");
-                }
                 else
-                {
                     Console.WriteLine(GetMagicOptions());
-                    Console.Write("\nAction: ");
-                }
+                
+                Console.Write("\nAction: ");
             }
             else
-                Console.WriteLine("  (ok)");
+                Console.WriteLine("  (press any key)");
         }
         public static string GetPlayerOptions()
         {
@@ -118,17 +122,29 @@ namespace Battle
                    $"3) Heal\t\t\t {MagicManager.HEAL_MP_COST}MP\n" +
                    $"4) Go back";
         }
-
-        public static void ShowInventoryScreen(Player player)
+        public static void ShowInventoryScreen(Player player, int itemCount)
         {
-            Console.Clear();
-            Console.WriteLine("current inventory...\n\n");
+            if (itemCount > 0)
+            {
+                Console.Clear();
+                Console.WriteLine("current inventory...\n\n");
 
-            Console.WriteLine(InventoryManager.GetSubtotaledInventory(player.Inventory));
-            Console.WriteLine("\n9) Go back");
-            Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");
-            Console.WriteLine($"Current MP: {player.CurrentMP}/{player.StartingMP}");
-            Console.WriteLine($"Status: {player.PlayerCondition}");
+                Console.WriteLine(InventoryManager.GetSubtotaledInventory(player.Inventory));
+                Console.WriteLine("\n9) Go back");
+                Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");
+                Console.WriteLine($"Current MP: {player.CurrentMP}/{player.StartingMP}");
+                Console.WriteLine($"Status: {player.PlayerCondition}");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("\n\n\t(Inventory is empty...)");
+
+                Console.WriteLine("\n9) Go back");
+                Console.WriteLine($"\nCurrent HP: {player.CurrentHP}/{player.StartingHP}");
+                Console.WriteLine($"Current MP: {player.CurrentMP}/{player.StartingMP}");
+                Console.WriteLine($"Status: {player.PlayerCondition}");
+            }
         }
         public static void AfterFightScreen(Player player)
         {
@@ -141,16 +157,14 @@ namespace Battle
             Console.Write("Action: ");
             
         }
-
         public static void VictoryScreen(Player player)
         {
             Console.Clear();
-            Console.WriteLine($"{player.Name}, you have won all five fights!\n\n");
-            Console.WriteLine("You are now headed to the bakery.\n\n");
+            Console.WriteLine($"~~~ Congratulations! ~~~");
+            Console.WriteLine($"\n{player.Name}, you have won all five fights!\n\n");
             Console.WriteLine("(press any key to continue)");
             Console.ReadKey();
         }
-
         public static void StoreFront(int goldAmount)
         {
             Console.Clear();
@@ -171,9 +185,9 @@ namespace Battle
                     "\n\n6) (Leave)\n"
                 );
         }
-
         //startingAmt: beginning HP or MP
         //currentAmt:  current HP or MP
+        //isHealthBar: used to determine if bar should be green or blue
         public static void PrintVisualMeter(int startingAmt, int currentAmt, bool isHealthBar)
         {
             const int LOW_BAR_AMOUNT = 4;
@@ -201,7 +215,6 @@ namespace Battle
                 Console.WriteLine("]");
             }
         }
-
         public static string PrintBarsAndSpaces(int barCount)
         {
             string barString = "";
@@ -215,7 +228,6 @@ namespace Battle
             }
             return barString;
         }
-
         public static void TravelingToBakery()
         {
             //screen only showed once per game at game end.
@@ -228,7 +240,6 @@ namespace Battle
             Console.WriteLine("(Press any key to continue)");
             Console.ReadKey();
         }
-
         public static void BakeryScreen(Player player)
         {
             Console.Clear();
@@ -240,7 +251,6 @@ namespace Battle
             Console.WriteLine($"Gold: {player.gold}\n");
             Console.Write("Selection:  ");
         }
-
         public static void WaterPurchasedScreen()
         {
             Console.Clear();
@@ -300,21 +310,6 @@ namespace Battle
             Console.WriteLine("(Press any key to continue)");
             Console.ReadKey();
         }
-
-        public static void GetPlayerNameScreen()
-        {
-            Console.Clear();
-            Console.WriteLine
-                (
-                    "\n\nYour hunger seems to be insatiable.\n" +
-                    "It occurs to you that you will not be accompanied alone\n" +
-                    "on this adventure since your belly does have a mind of its own."
-                );
-
-            Console.WriteLine("What is your name, traveller?\n");
-            Console.Write("--> ");
-        }
-
         public static void GameNeverStarted()
         {
             Console.Clear();
@@ -327,10 +322,20 @@ namespace Battle
             Console.WriteLine("\n\n\t\tPress any key to close.");
             Console.ReadKey();
         }
-
-        public static void GameOverScreen()
+        public static void DeathScreen(string playerName)
         {
             Console.Clear();
+
+            Console.WriteLine($"You have fallen in battle, {playerName}.");
+            Console.WriteLine($"\nTurns out this one was a worthy foe after all...");
+            Console.WriteLine($"\n\n(Press any key)");
+        }
+        public static void GameOverScreen() //ASCII game over banner
+        {
+            Console.Clear();
+
+            string gameOverText = File.ReadAllText("Text/" + "gameover.txt");
+            Console.WriteLine(gameOverText);
         }
     }
 }

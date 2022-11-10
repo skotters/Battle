@@ -13,6 +13,8 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
+        public int MinAttackDmg { get; set; }
+        public int MaxAttackDmg { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
 
         
@@ -24,6 +26,9 @@ namespace Battle.Enemies
         {
             Type = "Hobbit eater";
             Name = randomName;
+            MinAttackDmg = 5;
+            MaxAttackDmg = 8;
+
             if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;
             else

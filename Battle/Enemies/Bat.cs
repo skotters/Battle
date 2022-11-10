@@ -13,6 +13,8 @@ namespace Battle.Enemies
         public string Name { get; set; }
         public int StartingHP { get; set; }
         public int CurrentHP { get; set; }
+        public int MinAttackDmg { get; set; }
+        public int MaxAttackDmg { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
 
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
@@ -22,6 +24,8 @@ namespace Battle.Enemies
         {
             Type = "Vampire";
             Name = randomName;
+            MinAttackDmg = 3;
+            MaxAttackDmg = 8;
 
             if (randomName[0] == 'V') //monsters with V name start with more health.
                 StartingHP = 120;

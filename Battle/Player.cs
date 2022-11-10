@@ -24,7 +24,7 @@ namespace Battle
         public int CurrentMP { get; set; }
         public Condition PlayerCondition { get; set; }
         public VisualMeter PlayerHealthBar { get; set; }
-        public VisualMeter playerMPBar { get; set; } //yes, using a healthbar for the MP...
+        public VisualMeter PlayerMPBar { get; set; }
         public int gold { get; set; } = 50;
         public List<IBagItems> Inventory { get; set; }
         public bool hasSword { get; set; }
@@ -43,13 +43,15 @@ namespace Battle
             StartingMP = 20;
             CurrentMP = StartingMP;
             PlayerHealthBar = new VisualMeter();
-            playerMPBar = new VisualMeter();      
+            PlayerMPBar = new VisualMeter();      
             PlayerCondition = Condition.Normal;
             Inventory = new List<IBagItems>();
             hasSword = false;
             hasArmor = false;
-            MinAttackDmg = 5;
-            MaxAttackDmg = 8;
+            //MinAttackDmg = 5;
+            //MaxAttackDmg = 8;
+            MinAttackDmg = 80;
+            MaxAttackDmg = 90;
             ConfusionTurnCounter = 0;
             MagicMenuOpen = false;
         }
