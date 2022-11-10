@@ -48,10 +48,8 @@ namespace Battle
             Inventory = new List<IBagItems>();
             hasSword = false;
             hasArmor = false;
-            //MinAttackDmg = 5;
-            //MaxAttackDmg = 8;
-            MinAttackDmg = 80;
-            MaxAttackDmg = 90;
+            MinAttackDmg = 5;
+            MaxAttackDmg = 8;
             ConfusionTurnCounter = 0;
             MagicMenuOpen = false;
         }
