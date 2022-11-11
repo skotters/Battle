@@ -19,7 +19,7 @@ the placeholder API and is not an actual error in
 the monster name.
 
 ________________________________________________________
-##Summary
+## Summary
 This Battle project is a game. For those who may be
 unfamiliar with the style, it borrows some elements
 from common role-playing-games (RPGs).
@@ -38,7 +38,7 @@ a number that represents the "currency" required to
 spend on casting spells. Casting a fireball against
 the enemy, for example, costs 6MP.
 
-###Battle Abilities
+### Battle Abilities
 * Attack - standard attack that does 5 to 8 pts of dmg.
 * Strong attack - attack that does 10 to 18 pts of dmg.
     * has 50% chance to miss.
@@ -57,7 +57,7 @@ the enemy, for example, costs 6MP.
     head straight to the bakery. Each failed attempt will 
     result in the enemy simply taking their turn and attacking you.
     
-###Status effects
+### Status effects
 There are three states the player can be in:
 * Normal
 * Poisoned - you take 5 dmg every turn until fight is over or until an antidote is used
