@@ -25,28 +25,28 @@ namespace Battle
                 playerIsAlive = EnterBattle(player, new Bat(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
                 if (!playerIsAlive) { break; }
-                
+
                 //round2
                 if (!AskForNextFight(player)) { break; }
-                EnterBattle(player, new Ghost(MonsterNames.GetMonsterName()));
+                playerIsAlive = EnterBattle(player, new Ghost(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
                 if (!playerIsAlive) { break; }
 
                 //round3
                 if (!AskForNextFight(player)) { break; }
-                EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
+                playerIsAlive = EnterBattle(player, new HouseCat(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
                 if (!playerIsAlive) { break; }
 
                 //round4
                 if (!AskForNextFight(player)) { break; }
-                EnterBattle(player, new Spider(MonsterNames.GetMonsterName()));
+                playerIsAlive = EnterBattle(player, new Spider(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
                 if (!playerIsAlive) { break; }
 
                 //round5
                 if (!AskForNextFight(player)) { break; }
-                EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
+                playerIsAlive = EnterBattle(player, new Ufo(MonsterNames.GetMonsterName()));
                 if (goToBakery) { break; }
                 if (!playerIsAlive) { break; }
 

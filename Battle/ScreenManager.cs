@@ -65,9 +65,14 @@ namespace Battle
         }
         public static void BattleScreenUpdate(IMonster monster, Player player, string statusText, int whoseturn)
         {
-            Console.Clear();
+            string enemy;
 
-            string enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
+            if (monster.CurrentHP > 0)
+                enemy = File.ReadAllText("Text/" + monster.Type + ".txt");
+            else //display the dead version of the monster. File prefix is "dead" on those monsters.
+                enemy = File.ReadAllText("Text/dead" + monster.Type + ".txt");
+            
+            Console.Clear();
 
             Console.WriteLine($"\tName: {monster.Name}");
             Console.WriteLine($"\tType: {monster.Type}");

@@ -50,6 +50,8 @@ namespace Battle
             hasArmor = false;
             MinAttackDmg = 5;
             MaxAttackDmg = 8;
+            //MinAttackDmg = 50;      
+            //MaxAttackDmg = 80;      
             ConfusionTurnCounter = 0;
             MagicMenuOpen = false;
         }

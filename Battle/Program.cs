@@ -5,6 +5,7 @@ namespace Battle
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White; //force white if not default.
