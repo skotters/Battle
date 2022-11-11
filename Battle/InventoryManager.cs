@@ -15,12 +15,10 @@ namespace Battle
         public static int subtotalOptionCounter { get; set; }
         public static bool InventoryMenu(Player player)
         {
-
             OpenWindow(player.Inventory, player); 
 
             return true;
         }
-
         public static string GetSubtotaledInventory(List<IBagItems> stuff)
         {
              // *** resets on each call***
@@ -59,7 +57,6 @@ namespace Battle
             {
                 try
                 {
-                    
                         ScreenManager.ShowInventoryScreen(player, stuff.Count);
                         nameHolder = new List<string>(); //reset
 
@@ -68,8 +65,6 @@ namespace Battle
                             nameHolder.Add(item.Key.ToString());
                             i++;
                         }
-                    
-
 
                     Console.Write("\nEnter number: ");
                     int option = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -89,20 +84,8 @@ namespace Battle
                 }
             }
         }
-
         static public void UseStuff(string itemKey, List<IBagItems> stuff, Player player)
         {
-
-            //Console.WriteLine("initial list before removal... count: " + stuff.Count);
-            //// *********** initial full equip list **********
-            //foreach (var item in stuff)
-            //{
-            //    Console.WriteLine(item.Name);
-            //}
-            
-
-            //Console.WriteLine("\n\nlooking to use/remote an item from list...");
-
             foreach (IBagItems item in stuff)
             {
                 //remove item from list if found...
@@ -114,17 +97,7 @@ namespace Battle
                     break;
                 }
             }
-
-            //Console.WriteLine("\n\ninitial list after removal... count: " + stuff.Count);
-            //// *********** initial full equip list **********
-            //foreach (var item in stuff)
-            //{
-            //    Console.WriteLine(item.Name);
-            //}
         }
-
-
-
     }
 }
 

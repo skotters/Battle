@@ -17,5 +17,7 @@ namespace Battle
         public VisualMeter MonsterHealthBar { get; set; }
         public void Attack(Player player, int dmgAmount);
         public void TakeDmg(int dmgTaken); 
+
+        //generic Special() method possible?
     }
 }

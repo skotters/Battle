@@ -19,7 +19,6 @@ namespace Battle.Enemies
 
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
-        
         public Bat(string randomName)
         {
             Type = "Vampire";
@@ -34,7 +33,6 @@ namespace Battle.Enemies
 
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
-
         }
         public void Attack(Player player, int dmgAmount)
         {
@@ -59,7 +57,6 @@ namespace Battle.Enemies
             Console.ReadKey();
             ScreenManager.BattleScreenUpdate(this, player, string.Empty, 1);
         }
-
         public void Special(int bloodAmount)
         {
             //BAT LEECH ATTACK
@@ -68,7 +65,6 @@ namespace Battle.Enemies
             else
                 CurrentHP = StartingHP; // go max health
         }
-
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;

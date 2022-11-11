@@ -17,8 +17,6 @@ namespace Battle.Enemies
         public int MaxAttackDmg { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
 
-        
-
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
 
@@ -36,7 +34,6 @@ namespace Battle.Enemies
 
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
-
         }
         public void Attack(Player player, int dmgAmount)
         {
@@ -60,12 +57,10 @@ namespace Battle.Enemies
             Console.ReadKey();
             ScreenManager.BattleScreenUpdate(this, player, String.Empty, 1);
         }
-
         public void Special(Player player)
         {
             player.PlayerCondition = Condition.Poisoned;
         }
-
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;

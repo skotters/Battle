@@ -14,7 +14,6 @@ namespace Battle
         public static int FIREBALL_MP_COST = 6;
         public static int ARCANE_MP_COST = 10;
         public static int HEAL_MP_COST = 8;
-
         public enum SpellType
         {
             Fireball,
@@ -33,7 +32,6 @@ namespace Battle
             {
                 try
                 {
-                    
                     var keyPress = Console.ReadKey();
                     playerOption = int.Parse(keyPress.KeyChar.ToString());
 
@@ -114,7 +112,6 @@ namespace Battle
             Random rng = new Random();
             dmgAmtHolder.Add(rng.Next(15, 21));
             player.MagicAttack(monster, dmgAmtHolder, SpellType.Fireball);
-
         }
 
         public static void ArcaneMissiles(IMonster monster, Player player)
@@ -124,17 +121,13 @@ namespace Battle
             {
                 if (rng.Next(1, 100) <= 50)
                     dmgAmtHolder.Add(rng.Next(12, 19));
-
-                    
             }
             player.MagicAttack(monster, dmgAmtHolder, SpellType.ArcaneMissiles);
-
         }
 
         public static void HealSelf(IMonster monster, Player player)
         {
             player.HealHP(monster, player);
-            
         }
     }
 }

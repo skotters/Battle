@@ -12,7 +12,6 @@
 
         const int SPECIAL_CHANCE_PERCENTAGE = 15;
         Random rng = new Random();
-        
         public Ghost(string randomName)
         {
             Type = "Spooky";
@@ -27,7 +26,6 @@
 
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
-
         }
         public void Attack(Player player, int dmgAmount)
         {
@@ -51,7 +49,6 @@
             Console.ReadKey();
             ScreenManager.BattleScreenUpdate(this, player, String.Empty, 1);
         }
-
         public void Special(Player player)
         {
             //GHOST STEALS GOLD FROM PLAYER
@@ -66,8 +63,5 @@
             CurrentHP -= dmgTaken;
             VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
-    
-
-
     }
 }

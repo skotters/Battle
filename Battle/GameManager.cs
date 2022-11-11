@@ -46,7 +46,6 @@ namespace Battle
 
             } while (gameOn);
         }
-
         public static string GetValidPlayerName()
         {
             bool validName;
@@ -73,7 +72,6 @@ namespace Battle
 
             return name;
         }
-
         public static bool PromptUserForStoreEntry(string playerName)
         {
             bool validEntry = false;

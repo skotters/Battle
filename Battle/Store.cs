@@ -12,20 +12,14 @@ namespace Battle
 
         public static void GoShopping(Player player)
         {
-            
-
             ScreenManager.StoreFront(player.gold);
             Console.Write("Option: ");
-
-
-
 
             bool badUserEntry = false;
             bool openList = true;
 
             do
             {
-
                 try
                 {
 

@@ -38,7 +38,5 @@ namespace Battle
 
             return healthbarString;
         }
-
-
     }
 }

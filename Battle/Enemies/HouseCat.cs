@@ -17,7 +17,6 @@ namespace Battle.Enemies
         public VisualMeter MonsterHealthBar { get; set; }
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
-
         public HouseCat(string randomName)
         {
             Type = "Grumpy";
@@ -68,13 +67,11 @@ namespace Battle.Enemies
             Console.ReadKey();
             ScreenManager.BattleScreenUpdate(this, player, String.Empty, 1);
         }
-
         public void Special(Player player, int damage)
         {
             //CAT GETS AN ADDITIONAL ATTACK
             player.TakeDmg(damage);
         }
-
         public void TakeDmg(int dmgTaken)
         {
             CurrentHP -= dmgTaken;

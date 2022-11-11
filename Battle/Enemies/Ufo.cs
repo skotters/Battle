@@ -32,7 +32,6 @@ namespace Battle.Enemies
 
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
-
         }
         public void Attack(Player player, int dmgAmount)
         {
