@@ -43,9 +43,9 @@ the enemy, for example, costs 6MP.
 * Strong attack - attack that does 10 to 18 pts of dmg.
     * has 50% chance to miss.
 * Magic - open the magic menu
-    *Fireball - uses 6MP and does 15 to 20 dmg.
-    *Arcane Missiles - uses 10MP and attempts (3) magic magic attacks each between 12 to 18 pts of dmg. Each missile has a 50% of success. Potential max dmg is 54!
-    *Heal - uses 8MP and heal yourself for 20HP.
+    * Fireball - uses 6MP and does 15 to 20 dmg.
+    * Arcane Missiles - uses 10MP and attempts (3) magic magic attacks each between 12 to 18 pts of dmg. Each missile has a 50% of success. Potential max dmg is 54!
+    * Heal - uses 8MP and heal yourself for 20HP.
 * Item - open the item menu (these are purchased in the store)
     * Health Potion - heals the player for 25HP.
     * Magic Potion - restores 25MP to the player.
