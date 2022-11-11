@@ -2,11 +2,11 @@
 
 ## To Run Program
 
-# On Windows
+### On Windows
 1) Clone repo
 2) Open solution and run?
 
-# On Mac
+### On Mac
 1) Clone repo
 2) build
 3) dotnet run --project Battle/Battle.csproj
