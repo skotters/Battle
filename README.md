@@ -29,11 +29,11 @@ action, and then the enemy takes a turn and attacks you.
 That process repeats over and over until either you
 or the opponent wins the fight. 
 
-HP is short for "hit points" and is a number that 
+**HP** is short for "hit points" and is a number that 
 represents the amount of health you have. When it hits
 zero, you're dead. Same thing goes for the enemy.
 
-MP is short for "magic points" (or mana points) and is
+**MP** is short for "magic points" (or mana points) and is
 a number that represents the "currency" required to
 spend on casting spells. Casting a fireball against
 the enemy, for example, costs 6MP.
