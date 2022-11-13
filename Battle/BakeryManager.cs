@@ -48,7 +48,7 @@ namespace Battle
                             }
                         case 3: //maple bacon donut
                             {
-                                if (player.gold >= 150)
+                                if (player.gold >= 200)
                                 {
                                     ScreenManager.MapleBaconDonutPurchasedScreen();
                                     bakeryOpen = false;

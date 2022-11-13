@@ -6,16 +6,8 @@ using System.Threading.Tasks;
 
 namespace Battle.Enemies
 {
-    internal class Ufo: IMonster
+    internal class Ufo : Monster
     {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public int StartingHP { get; set; }
-        public int CurrentHP { get; set; }
-        public int MinAttackDmg { get; set; }
-        public int MaxAttackDmg { get; set; }
-        public VisualMeter MonsterHealthBar { get; set; }
-
         const int SPECIAL_CHANCE_PERCENTAGE = 25;
         Random rng = new Random();
         public Ufo(string randomName)
@@ -33,7 +25,7 @@ namespace Battle.Enemies
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
         }
-        public void Attack(Player player, int dmgAmount)
+        public override void Attack(Player player, int dmgAmount)
         {
             string actionText = "";
 
@@ -63,10 +55,5 @@ namespace Battle.Enemies
             player.ConfusionTurnCounter = 3; //player confused for 3 turns
         }
 
-        public void TakeDmg(int dmgTaken)
-        {
-            CurrentHP -= dmgTaken;
-            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
-        }
     }
 }

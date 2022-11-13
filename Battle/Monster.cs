@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battle
 {
-    public interface IMonster
+    public class Monster
     {
         public string Name { get; set; }
         public int StartingHP { get; set; }
@@ -15,9 +15,11 @@ namespace Battle
         public int MaxAttackDmg { get; set; }
         public string Type { get; set; }
         public VisualMeter MonsterHealthBar { get; set; }
-        public void Attack(Player player, int dmgAmount);
-        public void TakeDmg(int dmgTaken); 
-
-        //generic Special() method possible?
+        public virtual void Attack(Player player, int dmgAmount) { }
+        public void TakeDmg(int dmgTaken)
+        {
+            CurrentHP -= dmgTaken;
+            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
+        }
     }
 }

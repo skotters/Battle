@@ -4,12 +4,13 @@
 
 ### On Windows
 1) Clone repo
-2) Open solution and run?
+2) Run solution in visual studio
+3) or, dotnet run --project Battle.csproj
 
 ### On Mac
 1) Clone repo
 2) build
-3) dotnet run --project Battle/Battle.csproj
+3) dotnet run --project Battle.csproj
 
 <h1></h1>
 
@@ -63,7 +64,8 @@ There are three states the player can be in:
 * Poisoned - you take 5 dmg every turn until fight is over or until an antidote is used
 * Confused - you have a 50% chance to hit yourself instead of the enemy when attacking!
 
-
+### V monsters
+Monsters who have a name starting with "V" are extra powerful and start with 20 additional HP!
 
 
 

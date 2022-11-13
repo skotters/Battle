@@ -6,15 +6,8 @@ using System.Threading.Tasks;
 
 namespace Battle.Enemies
 {
-    internal class HouseCat : IMonster
+    internal class HouseCat : Monster
     {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public int StartingHP { get; set; }
-        public int CurrentHP { get; set; }
-        public int MinAttackDmg { get; set; }
-        public int MaxAttackDmg { get; set; }
-        public VisualMeter MonsterHealthBar { get; set; }
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
         public HouseCat(string randomName)
@@ -33,7 +26,7 @@ namespace Battle.Enemies
             MonsterHealthBar = new VisualMeter();
 
         }
-        public void Attack(Player player, int dmgAmount)
+        public override void Attack(Player player, int dmgAmount)
         {
             string actionText = "";
 
@@ -71,11 +64,6 @@ namespace Battle.Enemies
         {
             //CAT GETS AN ADDITIONAL ATTACK
             player.TakeDmg(damage);
-        }
-        public void TakeDmg(int dmgTaken)
-        {
-            CurrentHP -= dmgTaken;
-            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
     }
 }

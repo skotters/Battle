@@ -1,14 +1,22 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Battle
 {
     internal class Program
     {
+        public static bool isMacintosh;
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.White; //force white if not default.
-            Console.SetWindowSize(70, 30); //only works for windows machines
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                isMacintosh = true;
+
+            if (!isMacintosh)
+            {
+                Console.ForegroundColor = ConsoleColor.White; //force white if not default.
+                //Console.SetWindowSize(70, 30);
+            }
 
             Introduction();
         }

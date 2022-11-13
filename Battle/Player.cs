@@ -55,7 +55,7 @@ namespace Battle
             ConfusionTurnCounter = 0;
             MagicMenuOpen = false;
         }
-        public void Attack(IMonster monster, int dmgAmount)
+        public void Attack(Monster monster, int dmgAmount)
         {
             if(ConfusionTurnCounter == 0) { this.PlayerCondition = Condition.Normal; }
 
@@ -87,7 +87,7 @@ namespace Battle
                 ScreenManager.BattleScreenUpdate(monster, this, String.Empty, 2);
             }
         }
-        public void MagicAttack(IMonster monster, List<int> dmgAmount, MagicManager.SpellType spellType)
+        public void MagicAttack(Monster monster, List<int> dmgAmount, MagicManager.SpellType spellType)
         {
             //only two offensive magic attacks in place, only need a single if/else
 
@@ -127,7 +127,7 @@ namespace Battle
             VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
         }
 
-        public void HealHP(IMonster monster, Player player)
+        public void HealHP(Monster monster, Player player)
         {
             if (StartingHP - CurrentHP >= 20)
                 CurrentHP += 20;

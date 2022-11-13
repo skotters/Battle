@@ -16,6 +16,7 @@ namespace Battle
         public static void IntroScreen()
         {
             Console.Clear();
+
             Console.WriteLine
                 (
                     "Welcome, traveller. You look hungry.\n" +
@@ -63,7 +64,7 @@ namespace Battle
 
             Console.Write("\n(y/n): ");
         }
-        public static void BattleScreenUpdate(IMonster monster, Player player, string statusText, int whoseturn)
+        public static void BattleScreenUpdate(Monster monster, Player player, string statusText, int whoseturn)
         {
             string enemy;
 
@@ -205,7 +206,12 @@ namespace Battle
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(PrintBarsAndSpaces(barCount));
-                Console.ForegroundColor = ConsoleColor.White;
+
+                if(Program.isMacintosh)
+                    Console.ForegroundColor = ConsoleColor.Black;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine("]");
             }
             else 
@@ -216,7 +222,12 @@ namespace Battle
                     Console.ForegroundColor = ConsoleColor.Blue;    //player mp meter uses blue
 
                 Console.Write(PrintBarsAndSpaces(barCount));
-                Console.ForegroundColor = ConsoleColor.White;
+
+                if (Program.isMacintosh)
+                    Console.ForegroundColor = ConsoleColor.Black;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine("]");
             }
         }

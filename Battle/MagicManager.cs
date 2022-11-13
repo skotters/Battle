@@ -21,7 +21,7 @@ namespace Battle
             Heal
         }
 
-        public static bool MagicSelection(IMonster monster, Player player)
+        public static bool MagicSelection(Monster monster, Player player)
         {
             ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
             dmgAmtHolder.Clear();   
@@ -107,14 +107,14 @@ namespace Battle
 
             return true; //something was casted, player turn used up
         }
-        public static void Fireball(IMonster monster, Player player)
+        public static void Fireball(Monster monster, Player player)
         {
             Random rng = new Random();
             dmgAmtHolder.Add(rng.Next(15, 21));
             player.MagicAttack(monster, dmgAmtHolder, SpellType.Fireball);
         }
 
-        public static void ArcaneMissiles(IMonster monster, Player player)
+        public static void ArcaneMissiles(Monster monster, Player player)
         {
             Random rng = new Random();
             for (int i = 0; i < 3; i++)
@@ -125,7 +125,7 @@ namespace Battle
             player.MagicAttack(monster, dmgAmtHolder, SpellType.ArcaneMissiles);
         }
 
-        public static void HealSelf(IMonster monster, Player player)
+        public static void HealSelf(Monster monster, Player player)
         {
             player.HealHP(monster, player);
         }

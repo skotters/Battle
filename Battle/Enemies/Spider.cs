@@ -7,16 +7,8 @@ using System.Threading.Tasks;
 
 namespace Battle.Enemies
 {
-    internal class Spider : IMonster 
+    internal class Spider : Monster 
     {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public int StartingHP { get; set; }
-        public int CurrentHP { get; set; }
-        public int MinAttackDmg { get; set; }
-        public int MaxAttackDmg { get; set; }
-        public VisualMeter MonsterHealthBar { get; set; }
-
         const int SPECIAL_CHANCE_PERCENTAGE = 20;
         Random rng = new Random();
 
@@ -35,7 +27,7 @@ namespace Battle.Enemies
             CurrentHP = StartingHP;
             MonsterHealthBar = new VisualMeter();
         }
-        public void Attack(Player player, int dmgAmount)
+        public override void Attack(Player player, int dmgAmount)
         {
             string actionText = "";
 
@@ -61,11 +53,5 @@ namespace Battle.Enemies
         {
             player.PlayerCondition = Condition.Poisoned;
         }
-        public void TakeDmg(int dmgTaken)
-        {
-            CurrentHP -= dmgTaken;
-            VisualMeter.GetFullMeterString(StartingHP, CurrentHP);
-        }
-
     }
 }

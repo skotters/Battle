@@ -57,7 +57,7 @@ namespace Battle
 
         }//fully exiting battle stage
 
-        public bool EnterBattle(Player player, IMonster monster)
+        public bool EnterBattle(Player player, Monster monster)
         {
             player.PlayerCondition = Condition.Normal;
             player.CurrentHP = player.StartingHP;
@@ -78,6 +78,10 @@ namespace Battle
                     // poison persists until player uses an
                     // antidote or the fight ends.
                     CheckForPoisonDamage(monster, player);
+                    if (player.CurrentHP <= 0)
+                    {
+                        return false;
+                    }
 
                     bool badUserEntry = false;
                     menuExitPerformed = false;
@@ -219,7 +223,6 @@ namespace Battle
                     if (player.CurrentHP <= 0) 
                     {
                         return false;
-                        //ScreenManager.DeathScreen(monster, player);
                     }
                     
                     whoseturn = 1;
@@ -230,7 +233,7 @@ namespace Battle
 
         }   
 
-        public void MonsterDefeated(IMonster monster, Player player, int whoseturn)
+        public void MonsterDefeated(Monster monster, Player player, int whoseturn)
         {
             string defeatText = 
                 $"{ monster.Name} was defeated!\n" +
@@ -285,7 +288,7 @@ namespace Battle
             return true; //default yes to next fight.
         }
 
-        public void CheckForPoisonDamage(IMonster monster, Player player)
+        public void CheckForPoisonDamage(Monster monster, Player player)
         {
             int poisonDmgToPlayer = 5;
             string battleStatusText = $"You took {poisonDmgToPlayer} damage from the poison.";
