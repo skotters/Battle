@@ -19,6 +19,9 @@
 2) Run solution in visual studio or, 
 3) Navigate to 2nd Battle folder in repo with `cd Battle` and `dotnet run --project Battle.csproj` with terminal.
 
+## Additional note for running program
+Whether the program is being run directly in Visual Studio, VS Code, Mac terminal, or Powershell, the viewable console area/window will need to be resized to allow at least 27 rows to view all material. 
+
 <h1></h1>
 
 It is possible a monster may randomly be assigned the 
