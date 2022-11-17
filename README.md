@@ -1,16 +1,23 @@
 <h1 align ="center"> Battle for a pastry...<br> against lorem ipsum monsters</h1>
 
+## Features included
+* Implement a "master loop" console application
+* Create a dictionary or list, populate it with several values, retrieve at least one value, and use in program
+* Create an additional class which inherits one or more properties from its parent
+* Read data from an external file and use that data in your application
+* Connect to an external/3rd party API and read data into your app
+
 ## To Run Program
 
 ### On Windows
 1) Clone repo
-2) Run solution in visual studio
-3) or, dotnet run --project Battle.csproj
+2) Run solution in visual studio or, 
+3) Navigate to 2nd Battle folder in repo with `cd Battle` and `dotnet run --project Battle.csproj` with command line or Powershell.
 
 ### On Mac
 1) Clone repo
-2) build
-3) dotnet run --project Battle.csproj
+2) Run solution in visual studio or, 
+3) Navigate to 2nd Battle folder in repo with `cd Battle` and `dotnet run --project Battle.csproj` with terminal.
 
 <h1></h1>
 
