@@ -4,11 +4,11 @@ namespace Battle
 {
     public static class Store
     {
-        const int HEALTHPOTIONCOST = 20;
-        const int MAGICPOTIONCOST = 20;
-        const int ANTIDOTECOST = 10;
-        const int SWORDCOST = 30;
-        const int ARMORCOST = 40;
+        //const int HEALTHPOTIONCOST = 20;
+        //const int MAGICPOTIONCOST = 20;
+        //const int ANTIDOTECOST = 10;
+        //const int SWORDCOST = 30;
+        //const int ARMORCOST = 40;
 
         public static void GoShopping(Player player)
         {
@@ -26,10 +26,10 @@ namespace Battle
                     switch (Convert.ToInt32(Console.ReadLine()))
                     {
                         case 1:
-                            if (player.gold - HEALTHPOTIONCOST >= 0)
+                            if (player.gold - Convert.ToInt32(ItemCosts.HealthPotion) >= 0)
                             {
                                 player.Inventory.Add(new HealthPotion());
-                                player.gold -= HEALTHPOTIONCOST;
+                                player.gold -= Convert.ToInt32(ItemCosts.HealthPotion);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added health potion\n");
                                 Console.Write("Option: ");
@@ -42,10 +42,10 @@ namespace Battle
                             }
                             break;
                         case 2:
-                            if (player.gold - MAGICPOTIONCOST >= 0)
+                            if (player.gold - Convert.ToInt32(ItemCosts.MagicPotion) >= 0)
                             {
                                 player.Inventory.Add(new MagicPotion());
-                                player.gold -= MAGICPOTIONCOST;
+                                player.gold -= Convert.ToInt32(ItemCosts.MagicPotion);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added magic potion\n");
                                 Console.Write("Option: ");
@@ -58,10 +58,10 @@ namespace Battle
                             }
                             break;
                         case 3:
-                            if (player.gold - ANTIDOTECOST >= 0)
+                            if (player.gold - Convert.ToInt32(ItemCosts.Antidote) >= 0)
                             {
                                 player.Inventory.Add(new Antidote());
-                                player.gold -= ANTIDOTECOST;
+                                player.gold -= Convert.ToInt32(ItemCosts.Antidote);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added antidote\n");
                                 Console.Write("Option: ");
@@ -82,12 +82,12 @@ namespace Battle
                             }
                             else
                             {
-                                if (player.gold - SWORDCOST >= 0)
+                                if (player.gold - Convert.ToInt32(ItemCosts.Sword) >= 0)
                                 {
                                     player.hasSword = true;
                                     player.MinAttackDmg++;      //min goes up 1
                                     player.MaxAttackDmg += 2;   //max goes up 2
-                                    player.gold -= SWORDCOST;
+                                    player.gold -= Convert.ToInt32(ItemCosts.Sword);
                                     ScreenManager.StoreFront(player.gold);
                                     Console.WriteLine("equipped sword\n");
                                     Console.Write("Option: ");
@@ -109,10 +109,10 @@ namespace Battle
                             }
                             else
                             {
-                                if (player.gold - ARMORCOST >= 0)
+                                if (player.gold - Convert.ToInt32(ItemCosts.Armor) >= 0)
                                 {
                                     player.hasArmor = true;
-                                    player.gold -= ARMORCOST;
+                                    player.gold -= Convert.ToInt32(ItemCosts.Armor);
                                     ScreenManager.StoreFront(player.gold);
                                     Console.WriteLine("equipped armor.\n");
                                     Console.Write("Option: ");

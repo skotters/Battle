@@ -14,7 +14,7 @@ namespace Battle
         public bool goToBakery = false;
         public void BattleSetup(Player player)
         {
-            MonsterNames.LoadFullJSON();
+            //MonsterNames.LoadFullJSON();
 
             bool fighting = true;
             bool playerIsAlive;

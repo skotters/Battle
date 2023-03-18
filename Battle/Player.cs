@@ -38,7 +38,7 @@ namespace Battle
 
         public Player()
         {
-            StartingHP = 100;
+            StartingHP = 200;
             CurrentHP = StartingHP;
             StartingMP = 20;
             CurrentMP = StartingMP;
