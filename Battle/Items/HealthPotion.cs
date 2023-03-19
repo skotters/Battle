@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Battle.Items
 {
-    internal class HealthPotion : IBagItems
+    public class HealthPotion : IBagItems
     {
         public string Name { get; set; }
+        public static int Cost { get; set; } = 20;
         public HealthPotion()
         {
             Name = "HealthPotion";

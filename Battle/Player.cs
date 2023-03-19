@@ -25,7 +25,7 @@ namespace Battle
         public Condition PlayerCondition { get; set; }
         public VisualMeter PlayerHealthBar { get; set; }
         public VisualMeter PlayerMPBar { get; set; }
-        public int gold { get; set; } = 50;
+        public int gold { get; set; } = 500; //50 default
         public List<IBagItems> Inventory { get; set; }
         public bool hasSword { get; set; }
         public bool hasArmor { get; set; }

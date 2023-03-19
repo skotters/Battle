@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Battle.Items
 {
-    internal class Sword
+    public class Sword : IBagItems
     {
         public string Name { get; set; }
+        public static int Cost { get; set; } = 30;
         public Sword()
         {
             Name = "Sword";
@@ -25,6 +26,11 @@ namespace Battle.Items
         public override string ToString()
         {
             return "Sword";
+        }
+
+        public void UseItem(Player player)
+        {
+            
         }
 
 

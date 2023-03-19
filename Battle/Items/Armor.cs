@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Battle.Items
 {
-    internal class Armor //damage mitigated by 2.
+    public class Armor : IBagItems//damage mitigated by 2.
     {
         public string Name { get; set; }
+        public static int Cost { get; set; } = 40;
 
         public Armor()
         {
@@ -27,6 +28,11 @@ namespace Battle.Items
         public override string ToString()
         {
             return "Armor";
+        }
+
+        public void UseItem(Player player)
+        {
+            
         }
 
 

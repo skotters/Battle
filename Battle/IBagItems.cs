@@ -9,6 +9,8 @@ namespace Battle
     public interface IBagItems
     {
         public string Name { get; set; }
+        public static int Cost { get; set; }
+
         public void UseItem(Player player);
     }
 }

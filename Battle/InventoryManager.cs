@@ -91,9 +91,17 @@ namespace Battle
                 //remove item from list if found...
                 if (itemKey == item.ToString())
                 {
-                    Console.WriteLine($"removing {item.ToString()}");
-                    item.UseItem(player);
-                    stuff.Remove(item);
+                    if (item.Name == "Armor" || item.Name == "Sword")
+                    {
+                        Console.WriteLine("\tPassive item, cannot be consumed.    (press any key)");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"removing {item.ToString()}");
+                        item.UseItem(player);
+                        stuff.Remove(item);
+                    }
                     break;
                 }
             }

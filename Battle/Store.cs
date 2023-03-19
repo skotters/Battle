@@ -1,4 +1,5 @@
 ﻿using Battle.Items;
+using System.Numerics;
 
 namespace Battle
 {
@@ -26,10 +27,11 @@ namespace Battle
                     switch (Convert.ToInt32(Console.ReadLine()))
                     {
                         case 1:
-                            if (player.gold - Convert.ToInt32(ItemCosts.HealthPotion) >= 0)
+                            if (player.gold - HealthPotion.Cost >= 0)
                             {
-                                player.Inventory.Add(new HealthPotion());
-                                player.gold -= Convert.ToInt32(ItemCosts.HealthPotion);
+                                BuyItem(player, new HealthPotion(), HealthPotion.Cost);
+                                //player.Inventory.Add(new HealthPotion());
+                                //player.gold -= Convert.ToInt32(ItemCosts.HealthPotion);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added health potion\n");
                                 Console.Write("Option: ");
@@ -42,10 +44,11 @@ namespace Battle
                             }
                             break;
                         case 2:
-                            if (player.gold - Convert.ToInt32(ItemCosts.MagicPotion) >= 0)
+                            if (player.gold - MagicPotion.Cost >= 0)
                             {
-                                player.Inventory.Add(new MagicPotion());
-                                player.gold -= Convert.ToInt32(ItemCosts.MagicPotion);
+                                BuyItem(player, new MagicPotion(), MagicPotion.Cost);
+                                //player.Inventory.Add(new MagicPotion());
+                                //player.gold -= Convert.ToInt32(ItemCosts.MagicPotion);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added magic potion\n");
                                 Console.Write("Option: ");
@@ -58,10 +61,11 @@ namespace Battle
                             }
                             break;
                         case 3:
-                            if (player.gold - Convert.ToInt32(ItemCosts.Antidote) >= 0)
+                            if (player.gold - Antidote.Cost >= 0)
                             {
-                                player.Inventory.Add(new Antidote());
-                                player.gold -= Convert.ToInt32(ItemCosts.Antidote);
+                                BuyItem(player, new Antidote(), Antidote.Cost);
+                                //player.Inventory.Add(new Antidote());
+                                //player.gold -= Convert.ToInt32(ItemCosts.Antidote);
                                 ScreenManager.StoreFront(player.gold);
                                 Console.WriteLine("Added antidote\n");
                                 Console.Write("Option: ");
@@ -82,12 +86,13 @@ namespace Battle
                             }
                             else
                             {
-                                if (player.gold - Convert.ToInt32(ItemCosts.Sword) >= 0)
+                                if (player.gold - Sword.Cost >= 0)
                                 {
                                     player.hasSword = true;
                                     player.MinAttackDmg++;      //min goes up 1
                                     player.MaxAttackDmg += 2;   //max goes up 2
-                                    player.gold -= Convert.ToInt32(ItemCosts.Sword);
+                                    BuyItem(player, new Sword(), Sword.Cost);
+                                    //player.gold -= Convert.ToInt32(ItemCosts.Sword);
                                     ScreenManager.StoreFront(player.gold);
                                     Console.WriteLine("equipped sword\n");
                                     Console.Write("Option: ");
@@ -109,10 +114,11 @@ namespace Battle
                             }
                             else
                             {
-                                if (player.gold - Convert.ToInt32(ItemCosts.Armor) >= 0)
+                                if (player.gold - Armor.Cost >= 0)
                                 {
                                     player.hasArmor = true;
-                                    player.gold -= Convert.ToInt32(ItemCosts.Armor);
+                                    BuyItem(player, new Armor(), Armor.Cost);
+                                    //player.gold -= Convert.ToInt32(ItemCosts.Armor);
                                     ScreenManager.StoreFront(player.gold);
                                     Console.WriteLine("equipped armor.\n");
                                     Console.Write("Option: ");
@@ -148,6 +154,12 @@ namespace Battle
                     
                 }
             } while (!badUserEntry && openList);
+        }
+
+        public static void BuyItem<T>(Player p1, T item, int itemCost) where T : IBagItems, new()
+        {
+            p1.Inventory.Add(item);
+            p1.gold -= Convert.ToInt32(itemCost);
         }
     }
 }
