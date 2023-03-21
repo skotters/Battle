@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Battle.Enemies;
 
 namespace Battle
@@ -16,8 +18,10 @@ namespace Battle
             bool gameOn;
             bool visitStore;
             string startingName;
+            string phoneNumber;
 
             startingName = GetValidPlayerName();
+            phoneNumber = GetValidPhoneNumber(startingName);
 
             do  //primary program loop
             {
@@ -27,6 +31,8 @@ namespace Battle
                 ScreenManager.AskToVisitStore(p1.Name);
                 visitStore = PromptUserForStoreEntry(p1.Name);
                 if (visitStore) { Store.GoShopping(p1); }
+
+                ScreenManager.EnteringBattlefieldScreen(startingName, phoneNumber);
 
                 BattleManager battle = new BattleManager();
                 battle.BattleSetup(p1);
@@ -72,6 +78,30 @@ namespace Battle
 
             return name;
         }
+
+        public static string GetValidPhoneNumber(string playerName)
+        {
+            bool validPhone;
+            string phone;
+            string pattern = @"\(\d{3}\)\d{3}-\d{4}";
+
+            do
+            {
+                validPhone = true;
+                ScreenManager.GetFriendsPhoneNumber(playerName);
+                phone = Console.ReadLine();
+                if (!Regex.IsMatch(phone, pattern))
+                {
+                    Console.WriteLine("\nInvalid phone  (press any key)");
+                    Console.ReadKey();
+                    ScreenManager.GetFriendsPhoneNumber(playerName);
+                    validPhone = false;
+                }
+
+            } while (!validPhone);
+
+            return phone;
+        }
         public static bool PromptUserForStoreEntry(string playerName)
         {
             bool validEntry = false;
@@ -87,11 +117,11 @@ namespace Battle
                 }
                 else if (playerOption.ToLower() == "n")
                 {
-                    Console.Clear();
-                    Console.WriteLine($"You are bold, {playerName}.");
-                    Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
-                    Console.WriteLine("\n (press any key) ");
-                    Console.ReadKey();
+                    //Console.Clear();
+                    //Console.WriteLine($"You are bold, {playerName}.");
+                    //Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
+                    //Console.WriteLine("\n (press any key) ");
+                    //Console.ReadKey();
                     return false;
                 }
                 else

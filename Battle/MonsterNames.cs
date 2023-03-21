@@ -71,9 +71,9 @@ namespace Battle
                 }
             }
 
-            Console.WriteLine("WE MADE IT!!!!!!!");
-            Console.WriteLine("monster name is id " + dummyID + " --- " + monsterName);
-            Console.ReadLine();
+            //Console.WriteLine("WE MADE IT!!!!!!!");
+            //Console.WriteLine("monster name is id " + dummyID + " --- " + monsterName);
+            //Console.ReadLine();
 
             return monsterName;
         }

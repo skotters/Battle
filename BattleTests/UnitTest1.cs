@@ -64,11 +64,5 @@ namespace BattleTests
             string actual = VisualMeter.GetFullMeterString(startingHP, currentHP);
             Assert.AreEqual(expected, actual);
         }
-
-
-        
     }
-
-
-
 }

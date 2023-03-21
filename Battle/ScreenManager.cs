@@ -52,6 +52,15 @@ namespace Battle
             Console.WriteLine("\nWhat is your name, traveller?\n");
             Console.Write("--> ");
         }
+
+        public static void GetFriendsPhoneNumber(string playerName)
+        {
+            GetPlayerNameScreen();
+            Console.WriteLine(playerName);
+            Console.WriteLine("\nPlease enter your best friend's phone number in format (###)###-####");
+            Console.Write("--> ");
+        }
+
         public static void AskToVisitStore(string playerName)
         {
             Console.Clear();
@@ -64,6 +73,18 @@ namespace Battle
 
             Console.Write("\n(y/n): ");
         }
+
+        public static void EnteringBattlefieldScreen(string playerName, string phoneNumber)
+        {
+            Console.Clear();
+            Console.WriteLine($"\n\n\n\tYou are now entering the Battlefield, {playerName}. ");
+            Console.WriteLine($"\n\n\tIf you become scared or too overwhelmed, you\n " +
+                $"\tcan call your friend for support at {phoneNumber}");
+            Console.WriteLine("\n\n\n\t(Press any key)");
+            Console.ReadKey();
+
+        }
+
         public static void BattleScreenUpdate(Monster monster, Player player, string statusText, int whoseturn)
         {
             string enemy;
