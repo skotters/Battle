@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,10 +78,9 @@ namespace Battle
 
                     UseStuff(nameHolder[option], stuff, player);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Console.WriteLine("\tInvalid entry.    (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                 }
             }
         }

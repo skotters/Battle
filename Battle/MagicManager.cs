@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -89,17 +90,15 @@ namespace Battle
                             }
                         default: //bad entry
                             {
-                                Console.WriteLine("\tInvalid entry.    (press any key)");
-                                Console.ReadKey();
+                                ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "No number input match");
                                 ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                 break;
                             }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Console.WriteLine("\tInvalid entry.   (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                     ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                 }
             }

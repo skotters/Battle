@@ -1,5 +1,6 @@
 ﻿using Battle.Items;
 using System.Numerics;
+using System.Reflection;
 
 namespace Battle
 {
@@ -135,20 +136,16 @@ namespace Battle
                             openList = false;
                             break;
                         default:
-                            Console.WriteLine("\tInvalid entry.    (ok)");
-                            Console.ReadKey();
+                            ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "No number input match");
                             ScreenManager.StoreFront(player.gold);
                             Console.Write("Option: ");
-                            badUserEntry = true;
                             break;
                     }
 
                 }
                 catch(Exception ex)
                 {
-                    //Console.WriteLine(ex); 
-                    Console.WriteLine("\tInvalid entry.    (ok)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                     ScreenManager.StoreFront(player.gold);
                     Console.Write("Option: ");
                     

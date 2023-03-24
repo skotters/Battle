@@ -56,13 +56,21 @@ namespace BattleTests
         [DataRow(100, 50, "[||||||||||          ]")]
         [DataRow(100, 51, "[||||||||||          ]")]
         [DataRow(100, 55, "[|||||||||||         ]")]
-        [DataRow(100, 1,  "[|                   ]")]
+        [DataRow(100, 1,  "[|                   ]")] //one bar equals 5 hp by default but having health where 0<x<5 still needs to display one bar
         [DataRow(200, 25, "[||                  ]")]
         [DataRow(100, 99, "[||||||||||||||||||| ]")]
         public void VisualBarLineCountTest(int startingHP, int currentHP, string expected)
         {
             string actual = VisualMeter.GetFullMeterString(startingHP, currentHP);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ErrorLogTest()
+        {
+            ErrorLogger.LogError("TestMethodName", "User entered an invalid key");
+
+            
         }
     }
 }

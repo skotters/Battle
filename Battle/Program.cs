@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Battle
@@ -9,15 +10,13 @@ namespace Battle
         public static bool isMacintosh;
         static void Main(string[] args)
         {
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 isMacintosh = true;
 
             if (!isMacintosh)
-            {
                 Console.ForegroundColor = ConsoleColor.White; //force white if not default.
-                //Console.SetWindowSize(70, 30);
-            }
-
+                
             Introduction();
         }
 
@@ -39,21 +38,22 @@ namespace Battle
                     GameManager game = new GameManager();
                     game.StartGame();
                     validEntry = true;
-                    System.Environment.Exit(0);
+                    //System.Environment.Exit(0);
                 }
                 else if(playerOption.ToLower() == "n")
                 {
                     ScreenManager.GameNeverStarted();
-                    System.Environment.Exit(0);
+                    //System.Environment.Exit(0);
                 }
                 else
                 {
-                    Console.WriteLine("\n\nInvalid Entry (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "Bad input on y/n prompt");
                     ScreenManager.IntroScreen();
                 }
 
             } while (!validEntry);
+
+            ErrorLogger.WriteErrorsToFile(); //final program action
         }
     }
 }

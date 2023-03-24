@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -194,17 +195,15 @@ namespace Battle
                                         break;
                                     }
                                 default: //no number match
-                                    Console.WriteLine("\tInvalid entry.    (press any key)");
-                                    Console.ReadKey();
+                                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "No number input match");
                                     ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                                     badUserEntry = true;
                                     break;
                             }
                         }
-                        catch //non-number catch
+                        catch(Exception ex) //non-number catch
                         {
-                            Console.WriteLine("\tInvalid entry.    (press any key)");
-                            Console.ReadKey();
+                            ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                             ScreenManager.BattleScreenUpdate(monster, player, String.Empty, 1);
                             badUserEntry = true;
                         }
@@ -268,18 +267,16 @@ namespace Battle
                             return false;
                         default:
                             {
-                                Console.WriteLine("\n\tInvalid entry.    (press any key)");
-                                Console.ReadKey();
+                                ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "No number input match");
                                 ScreenManager.AfterFightScreen(player);
                                 badUserEntry = true;
                                 break;
                             }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Console.WriteLine("\n\tInvalid entry.    (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                     ScreenManager.AfterFightScreen(player);
                     badUserEntry = true;
                 }

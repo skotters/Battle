@@ -16,7 +16,7 @@ namespace Battle
     {
         private static List<JSONDummy> JSONDummies { get; set; }
         private static string fullJSONtext { get; set; }
-        public static void LoadFullJSON()
+        public static void LoadFullJSON() //obsolete
         { 
             using (var client = new HttpClient())
             {
@@ -71,7 +71,7 @@ namespace Battle
                 }
             }
 
-            //Console.WriteLine("WE MADE IT!!!!!!!");
+            
             //Console.WriteLine("monster name is id " + dummyID + " --- " + monsterName);
             //Console.ReadLine();
 

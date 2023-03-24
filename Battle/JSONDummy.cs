@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battle
 {
+    //obsolete
     public class JSONDummy
     {
             public int userId { get; set; }

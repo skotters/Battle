@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -68,8 +69,7 @@ namespace Battle
                     name[0] == ' '
                    ) //if name starts with space or is all spaces...
                         {
-                            Console.WriteLine("\nInvalid name  (press any key)");
-                            Console.ReadKey();
+                            ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "Invalid player name entry");
                             ScreenManager.GetPlayerNameScreen();
                             validName = false;
                         }
@@ -92,8 +92,7 @@ namespace Battle
                 phone = Console.ReadLine();
                 if (!Regex.IsMatch(phone, pattern))
                 {
-                    Console.WriteLine("\nInvalid phone  (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "Invalid phone number entry");
                     ScreenManager.GetFriendsPhoneNumber(playerName);
                     validPhone = false;
                 }
@@ -126,8 +125,7 @@ namespace Battle
                 }
                 else
                 {
-                    Console.WriteLine("\n\nInvalid Entry (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "Bad input on y/n prompt");
                     ScreenManager.AskToVisitStore(playerName);
                 }
 
@@ -160,17 +158,15 @@ namespace Battle
                         case 2: 
                             return false;
                         default: //no number match
-                            Console.WriteLine("\n\tInvalid entry.    (press any key)");
-                            Console.ReadKey();
+                            ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, "No number input match");
                             ScreenManager.GameOverScreen();
                             badUserEntry = true;
                             break;
                     }
                 }
-                catch //non-number catch
+                catch(Exception ex) //non-number catch
                 {
-                    Console.WriteLine("\n\tInvalid entry.    (press any key)");
-                    Console.ReadKey();
+                    ErrorLogger.UserInputError(MethodBase.GetCurrentMethod().Name, ex.Message);
                     ScreenManager.GameOverScreen();
                     badUserEntry = true;
                 }
