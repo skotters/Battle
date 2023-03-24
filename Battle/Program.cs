@@ -38,12 +38,11 @@ namespace Battle
                     GameManager game = new GameManager();
                     game.StartGame();
                     validEntry = true;
-                    //System.Environment.Exit(0);
+                    
                 }
                 else if(playerOption.ToLower() == "n")
                 {
                     ScreenManager.GameNeverStarted();
-                    //System.Environment.Exit(0);
                 }
                 else
                 {

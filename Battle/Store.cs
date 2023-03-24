@@ -6,12 +6,6 @@ namespace Battle
 {
     public static class Store
     {
-        //const int HEALTHPOTIONCOST = 20;
-        //const int MAGICPOTIONCOST = 20;
-        //const int ANTIDOTECOST = 10;
-        //const int SWORDCOST = 30;
-        //const int ARMORCOST = 40;
-
         public static void GoShopping(Player player)
         {
             ScreenManager.StoreFront(player.gold);
@@ -141,7 +135,6 @@ namespace Battle
                             Console.Write("Option: ");
                             break;
                     }
-
                 }
                 catch(Exception ex)
                 {

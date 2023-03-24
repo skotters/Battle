@@ -65,12 +65,6 @@ namespace BattleTests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void ErrorLogTest()
-        {
-            ErrorLogger.LogError("TestMethodName", "User entered an invalid key");
 
-            
-        }
     }
 }

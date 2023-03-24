@@ -116,11 +116,6 @@ namespace Battle
                 }
                 else if (playerOption.ToLower() == "n")
                 {
-                    //Console.Clear();
-                    //Console.WriteLine($"You are bold, {playerName}.");
-                    //Console.WriteLine("May your pockets be lined with enough gold for the bakery!");
-                    //Console.WriteLine("\n (press any key) ");
-                    //Console.ReadKey();
                     return false;
                 }
                 else
