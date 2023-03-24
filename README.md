@@ -5,7 +5,6 @@
 * Create a dictionary or list, populate it with several values, retrieve at least one value, and use in program
 * Create an additional class which inherits one or more properties from its parent
 * Read data from an external file and use that data in your application
-* Connect to an external/3rd party API and read data into your app
 
 ## To Run Program
 
@@ -23,12 +22,6 @@
 Whether the program is being run directly in Visual Studio, VS Code, Mac terminal, or Powershell, the viewable console area/window will need to be resized to allow at least 27 rows to view all material. 
 
 <h1></h1>
-
-It is possible a monster may randomly be assigned the 
-name "Error" which is an actual word that pulls from 
-the placeholder API and is not an actual error in 
-the monster name.
-
 ________________________________________________________
 ## Summary
 This Battle project is a game. For those who may be
