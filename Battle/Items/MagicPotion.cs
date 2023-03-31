@@ -10,9 +10,11 @@ namespace Battle.Items
     {
         public string Name { get; set; }
         public static int Cost { get; set; } = 20;
+        public bool isPassive { get; set; }
         public MagicPotion()
         {
             Name = "MagicPotion";
+            isPassive = false;
         }
         public override bool Equals(object obj)
         {

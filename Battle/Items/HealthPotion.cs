@@ -10,9 +10,11 @@ namespace Battle.Items
     {
         public string Name { get; set; }
         public static int Cost { get; set; } = 20;
+        public bool isPassive { get; set; }
         public HealthPotion()
         {
             Name = "HealthPotion";
+            isPassive = false;
         }
         public override bool Equals(object obj)
         {
@@ -34,7 +36,7 @@ namespace Battle.Items
             if (player.StartingHP - player.CurrentHP >= 25)
                 player.CurrentHP += 25;
             else
-                player.CurrentHP = 100;
+                player.CurrentHP = player.StartingHP;
 
         }
     }

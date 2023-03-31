@@ -59,7 +59,7 @@ namespace BattleTests
         [DataRow(100, 1,  "[|                   ]")] //one bar equals 5 hp by default but having health where 0<x<5 still needs to display one bar
         [DataRow(200, 25, "[||                  ]")]
         [DataRow(100, 99, "[||||||||||||||||||| ]")]
-        public void VisualBarLineCountTest(int startingHP, int currentHP, string expected)
+        public void Do_HealthManaBars_Match_Values(int startingHP, int currentHP, string expected)
         {
             string actual = VisualMeter.GetFullMeterString(startingHP, currentHP);
             Assert.AreEqual(expected, actual);

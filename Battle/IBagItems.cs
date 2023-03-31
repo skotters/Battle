@@ -10,7 +10,7 @@ namespace Battle
     {
         public string Name { get; set; }
         public static int Cost { get; set; }
-
+        public bool isPassive { get; set; }
         public void UseItem(Player player);
     }
 }

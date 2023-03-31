@@ -91,7 +91,7 @@ namespace Battle
                 //remove item from list if found...
                 if (itemKey == item.ToString())
                 {
-                    if (item.Name == "Armor" || item.Name == "Sword")
+                    if (item.isPassive)
                     {
                         Console.WriteLine("\tPassive item, cannot be consumed.    (press any key)");
                         Console.ReadKey();
