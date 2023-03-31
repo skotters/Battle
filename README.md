@@ -1,22 +1,22 @@
 <h1 align ="center"> Battle for a pastry...<br> against lorem ipsum monsters</h1>
 
 ## Features included
-* Implement a "master loop" console application
-* Create a dictionary or list, populate it with several values, retrieve at least one value, and use in program
-* Create an additional class which inherits one or more properties from its parent
-* Read data from an external file and use that data in your application
+* Reads from a Sqlite database and assigns a monster name from table
+* Utilizes three unit tests
+* Utilizes a regex pattern to ensure a phone number is always stored and displayed in a (xxx)xxx-xxxx format
+* Includes error logging where each error is stored and saved in a text file.
 
 ## To Run Program
 
 ### On Windows
 1) Clone repo
 2) Run solution in visual studio or, 
-3) Navigate to 2nd Battle folder in repo with `cd Battle` and `dotnet run --project Battle.csproj` with command line or Powershell.
+3) Navigate to 2nd Battle folder in repo with `cd Battle`, then  `dotnet build`,  then `cd bin/Debug/net6.0`, then `./Battle.exe` with command line or Powershell.
 
 ### On Mac
 1) Clone repo
 2) Run solution in visual studio or, 
-3) Navigate to 2nd Battle folder in repo with `cd Battle` and `dotnet run --project Battle.csproj` with terminal.
+3) Navigate to 2nd Battle folder in repo with `cd Battle`, then  `dotnet build`,  then `cd bin/Debug/net6.0`, then `./Battle` with command line or Powershell.
 
 ## Additional note for running program
 Whether the program is being run directly in Visual Studio, VS Code, Mac terminal, or Powershell, the viewable console area/window will need to be resized to allow at least 27 rows to view all material. 
@@ -55,7 +55,7 @@ the enemy, for example, costs 6MP.
     * Magic Potion - restores 25MP to the player.
     * Antidote - removes poison status from the player.
     * Sword - passive item that adds +2 dmg to non-magic attacks.
-    * Armor - reduces all incoming dmg by 2.
+    * Armor - passive item that reduces all incoming dmg by 2.
 * Run Away
     * You have a 15% chance to bail out of the fight and
     head straight to the bakery. Each failed attempt will 
@@ -69,6 +69,9 @@ There are three states the player can be in:
 
 ### V monsters
 Monsters who have a name starting with "V" are extra powerful and start with 20 additional HP!
+
+### Error Log
+When the program has reached the "Game Over" screen and the game is exited, the error log will now be available to view. This can be found in the ErrorLog.txt file located at bin/Debug/net6.0/ErrorLog. 
 
 
 
