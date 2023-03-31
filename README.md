@@ -16,7 +16,7 @@
 ### On Mac
 1) Clone repo
 2) Run solution in visual studio or, 
-3) Navigate to 2nd Battle folder in repo with `cd Battle`, then  `dotnet build`,  then `cd bin/Debug/net6.0`, then `./Battle` with command line or Powershell.
+3) Navigate to 2nd Battle folder in repo with `cd Battle`, then  `dotnet build`,  then `cd bin/Debug/net6.0`, then `./Battle` with terminal.
 
 ## Additional note for running program
 Whether the program is being run directly in Visual Studio, VS Code, Mac terminal, or Powershell, the viewable console area/window will need to be resized to allow at least 27 rows to view all material. 
