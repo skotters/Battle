@@ -22,7 +22,7 @@
 Whether the program is being run directly in Visual Studio, VS Code, Mac terminal, or Powershell, the viewable console area/window will need to be resized to allow at least 27 rows to view all material. 
 
 <h1></h1>
-________________________________________________________
+
 ## Summary
 This Battle project is a game. For those who may be
 unfamiliar with the style, it borrows some elements
